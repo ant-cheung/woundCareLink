@@ -31,7 +31,31 @@ app.config(function($stateProvider, $urlRouterProvider)
       $stateProvider
         .state('login', {
           url: '/login',
-          templateUrl: 'templates/login.html'
+          templateUrl: 'templates/login.html',
+          controller: 'loginController'
         })
+
+        .state('patients', {
+          url: '/patients',
+          templateUrl: 'templates/patientList.html',
+          controller: 'patientController'
+        })
+
         $urlRouterProvider.otherwise('/login')
     })
+
+app.controller('patientController',['$scope','$http', function($scope,$http) {
+    $http.get('js/patientsInfo.json').success(function(data) {
+        $scope.patients =  data;
+    });
+}]);
+
+
+app.controller('loginController', function($scope, $state) {
+    $scope.data = {};
+ 
+    $scope.login = function() {
+        console.log("LOGIN user: " + $scope.data.username + " - PW: " + $scope.data.password);
+        $state.go('patients');
+    }
+})

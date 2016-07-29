@@ -1,6 +1,7 @@
 /* Empty. Add your own CSS if you like */
 .splash {
-	width: 750px;
-	height: 1334px;
+	background: url(../img/login.png) no-repeat;
+	width: 580px;
+	height: 1700px;
 
 }
