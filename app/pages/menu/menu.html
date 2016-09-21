@@ -4,9 +4,14 @@
 <ion-content padding>
          <div class="container" >
                 <div class="content">
-                    <span>Congratulations, you have successfully logged in!!</span>
+                    <span>Welcome {{ user }}</span>
                     <br />
-                    <a (click)="logout()" href="#">Click Here to logout</a>
+                    <a (click)="showPatientList()" href="#">Patients List</a>
+                    <br />
+                    <h2> Notifications: {{ notificationCount }} </h2>
+                    <a (click)="showPatientList()" href="#"></a>
+                    <br />
+                    <a (click)="logout()" href="#">logout</a>
                 </div>
             </div>
 </ion-content>

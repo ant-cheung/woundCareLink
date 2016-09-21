@@ -1,32 +1,28 @@
 import {Injectable} from '@angular/core';
-
-export class User {
-  constructor(
-    public email: string,
-    public password: string) { }
-}
-
-var users = [
-  new User('touraj', '123'),
-  new User('dss', '123')
-];
+import {User} from './user';
+import {BackendService} from './backend.service'
 
 @Injectable()
 export class AuthenticationService {
 
+  constructor(private backendService: BackendService) { }
+
+  private currentUser: User;
+
   logout() {
     localStorage.removeItem("user");
+    this.currentUser = null;
 
   }
 
-  login(user) {
-    var authenticatedUser = users.find(u => u.email === user.email);
+  login(user: User) {
+    var authenticatedUser = this.backendService.getUsers().find(u => u.userName === user.userName);
     if (authenticatedUser) {
-      localStorage.setItem("user", authenticatedUser.email);
+      localStorage.setItem("user", authenticatedUser.userName);
+      this.currentUser = user;
       return true;
     }
     return false;
-
   }
 
   checkCredentials() {
@@ -34,6 +30,10 @@ export class AuthenticationService {
       return false;
     }
     else { return true; }
+  }
+
+  getCurrentUser(): String {
+    return localStorage.getItem("user");
   }
 
 }

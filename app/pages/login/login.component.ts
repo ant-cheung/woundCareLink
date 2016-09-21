@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {AuthenticationService, User} from './authentication.service';
+import {AuthenticationService} from './authentication.service';
+import {User} from './user';
 import { NavController } from 'ionic-angular';
 import { Menu } from '../menu/menu';
 
@@ -14,7 +15,7 @@ export class LoginComponent {
     constructor(private _service: AuthenticationService, private navCtrl: NavController) {
 
     }
-    public user = new User('', '');
+    public user: User = new User(-1,'','',null);
     public errorMsg = '';
 
     login() {

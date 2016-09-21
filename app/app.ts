@@ -4,9 +4,12 @@ import { StatusBar } from 'ionic-native';
 
 import { HomePage } from './pages/home/home';
 
+import {BackendService} from './pages/login/backend.service'
+
 
 @Component({
-  template: '<ion-nav [root]="rootPage"></ion-nav>'
+  template: '<ion-nav [root]="rootPage"></ion-nav>',
+  providers: [BackendService]
 })
 export class MyApp {
   rootPage: any = HomePage;
