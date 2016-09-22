@@ -1,32 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="false" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;" class=" manual-remove-top-padding has-header">
 <ion-list>
   <ion-item *ngFor="let user of users" (click)="itemSelected(item)">
     {{user.userName}}
   </ion-item>
 </ion-list>
-
-
-
-<ion-view title="" id="page12">
-    <ion-content padding="false" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;" class=" manual-remove-top-padding has-header">
-        <ion-list id="page12-list12">
-            <ion-item class="item-thumbnail-left item-icon-right" id="page12-list-item45">
-                <h2>Doctors - VCH</h2>
-                <p>123 Main Street</p>
-                <i class="icon ion-ios-search-strong"></i>
-            </ion-item>
-        </ion-list>
-        <div class="spacer" style="width: 320px; height: 32px;"></div>
-        <ion-list id="page12-list10">
-            <ion-item class="item-icon-left item-icon-right dark" id="page12-list-item37" ui-sref="menu.page1">
-                <i class="icon ion-ios-person"></i>Dr. Oz Donald - RN#
-                <span class="item-note">Vancouver Coastal Health</span>
-                <i class="icon ion-email-unread"></i>
-            </ion-item>
-            <ion-item class="item-icon-left item-icon-right dark" id="page12-list-item38" ui-sref="menu.page1">
-                <i class="icon ion-ios-person"></i>Dr. Oprah Winfrey
-                <span class="item-note">Vancouver Coastal Health</span>
-                <i class="icon ion-android-alert"></i>
-            </ion-item>
-        </ion-list>
-    </ion-content>
-</ion-view>
+</ion-content>

@@ -12,14 +12,27 @@ import {UserGroup} from '../login/usergroup'
 
 export class UserList {
 
-    private userGroup: UserGroup;
+    public title: String;
     public users: User[]; 
     constructor(private navCtrl: NavController, private BackendService: BackendService, private navParams: NavParams) {
-     this.userGroup = navParams.get('id'); 
+     this.title = navParams.get('title'); 
         }
 
     ngOnInit() {
-        this.users = this.LoadUserList(this.userGroup);
+        let userGroup: UserGroup;
+        if (this.title === "Nurse List")
+        {
+            userGroup = 0;
+        }
+        else if (this.title === "Doctor List")
+        {
+            userGroup = 1;
+        }        
+        else if (this.title === "Patient List")
+        {
+            userGroup = 2;
+        }
+        this.users = this.LoadUserList(userGroup);
     }
 
     private LoadUserList(userGroup: UserGroup): User[]{

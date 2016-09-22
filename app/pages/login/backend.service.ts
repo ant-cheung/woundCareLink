@@ -45,6 +45,7 @@ export class BackendService {
 
 public getUsersInUserGroup(userGroup: UserGroup): User[]
  {
+   console.log("getting users for userGroup: " + userGroup);
    return this.users.filter(u => u.userGroup === userGroup);
  }
 
@@ -55,8 +56,16 @@ public getUsersInUserGroup(userGroup: UserGroup): User[]
 
  users = [
   new User(1, 'nurse1', '123', UserGroup.nurse),
+  new User(1, 'nurse2', '123', UserGroup.nurse),
+  new User(1, 'nurse3', '123', UserGroup.nurse),
+  new User(1, 'nurse4', '123', UserGroup.nurse),
   new User(2, 'patient1', '123', UserGroup.patient),
+  new User(2, 'patient2', '123', UserGroup.patient),
+  new User(2, 'patient3', '123', UserGroup.patient),
   new User(3, 'doctor1', '123', UserGroup.doctor),
+  new User(3, 'doctor2', '123', UserGroup.doctor),
+  new User(3, 'doctor3', '123', UserGroup.doctor),
+  new User(3, 'doctor4', '123', UserGroup.doctor)
 ];
 
 UserProfiles = [

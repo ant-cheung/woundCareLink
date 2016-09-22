@@ -19,6 +19,8 @@ export class LoginComponent {
     public errorMsg = '';
 
     login() {
+        // Change username to lowercase
+        this.user.userName = this.user.userName.toLowerCase();
         if (!this._service.login(this.user)) {
             this.errorMsg = 'Failed to login';
         }
