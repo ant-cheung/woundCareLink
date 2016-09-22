@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {AuthenticationService} from './authentication.service';
 import {User} from './user';
 import { NavController } from 'ionic-angular';
-import { Menu } from '../menu/menu';
+import { Landing } from '../landing/landing';
 
 @Component({
     selector: 'login-form',
@@ -23,7 +23,7 @@ export class LoginComponent {
             this.errorMsg = 'Failed to login';
         }
         else {
-            this.navCtrl.setRoot(Menu);
+            this.navCtrl.setRoot(Landing);
         }
     }
 

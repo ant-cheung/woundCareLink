@@ -38,8 +38,14 @@ export class BackendService {
 //  }
 
  public getUsers(): User[]
- {
+ {console.log("userGroup" + UserGroup.patient);
+   
    return this.users;
+ }
+
+public getUsersInUserGroup(userGroup: UserGroup): User[]
+ {
+   return this.users.filter(u => u.userGroup === userGroup);
  }
 
  public getUserProfiles(): UserProfile[]

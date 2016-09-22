@@ -19,6 +19,7 @@ export class AuthenticationService {
     var authenticatedUser = this.backendService.getUsers().find(u => u.userName === user.userName);
     if (authenticatedUser) {
       localStorage.setItem("user", authenticatedUser.userName);
+      console.log("usergroup:" + authenticatedUser.userGroup);
       this.currentUser = user;
       return true;
     }
