@@ -4,6 +4,7 @@ import {User} from '../login/user'
 import {BackendService} from '../login/backend.service'
 import { NavParams } from 'ionic-angular';
 import {UserGroup} from '../login/usergroup'
+import {UserProfile} from '../userProfile/userProfile'
 
 @Component({
     selector: 'userlist-form',
@@ -38,4 +39,9 @@ export class UserList {
     private LoadUserList(userGroup: UserGroup): User[]{
        return this.BackendService.getUsersInUserGroup(userGroup)
     }
+
+    showUserProfilePage(user: User)
+  {
+      this.navCtrl.push(UserProfile, { "userName": user.userName });
+  }
 }

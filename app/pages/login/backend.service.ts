@@ -38,8 +38,8 @@ export class BackendService {
 //  }
 
  public getUsers(): User[]
- {console.log("userGroup" + UserGroup.patient);
-   
+ {
+   console.log("get Users, size: " + this.users.length);
    return this.users;
  }
 

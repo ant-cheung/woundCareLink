@@ -8,7 +8,7 @@ import {BackendService} from './pages/login/backend.service'
 
 import { UserList} from './pages/userList/userList';
 import { Landing} from './pages/landing/landing';
-
+import { SearchPage} from './pages/search/search';
 
 @Component({
   templateUrl: 'build/app.html',
@@ -32,6 +32,7 @@ export class MyApp {
       { title: 'Patient List', component: UserList },
       { title: 'Nurse List', component: UserList },
       { title: 'Doctor List', component: UserList },
+      { title: 'Search', component: SearchPage },
       { title: 'Logout', component: HomePage }
     ];
 
