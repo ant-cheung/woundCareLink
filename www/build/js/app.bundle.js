@@ -14,29 +14,50 @@ var ionic_angular_1 = require('ionic-angular');
 var ionic_native_1 = require('ionic-native');
 var home_component_1 = require('./pages/home/home.component');
 var backend_service_1 = require('./services/backend.service');
+var userList_component_1 = require('./pages/userList/userList.component');
+var search_component_1 = require('./pages/search/search.component');
 var MyApp = (function () {
-    function MyApp(platform) {
+    function MyApp(platform, menu) {
         this.platform = platform;
+        this.menu = menu;
         this.rootPage = home_component_1.HomePage;
         platform.ready().then(function () {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             ionic_native_1.StatusBar.styleDefault();
         });
+        // set our app's pages
+        this.pages = [
+            { title: 'Patient List', component: userList_component_1.UserList },
+            { title: 'Nurse List', component: userList_component_1.UserList },
+            { title: 'Doctor List', component: userList_component_1.UserList },
+            { title: 'Search', component: search_component_1.SearchPage },
+            { title: 'Logout', component: home_component_1.HomePage }
+        ];
     }
+    MyApp.prototype.openPage = function (page) {
+        // close the menu when clicking a link from the menu
+        this.menu.close();
+        // navigate to the new page if it is not the current page
+        this.nav.setRoot(page.component, { title: page.title });
+    };
+    __decorate([
+        core_1.ViewChild(ionic_angular_1.Nav), 
+        __metadata('design:type', ionic_angular_1.Nav)
+    ], MyApp.prototype, "nav", void 0);
     MyApp = __decorate([
         core_1.Component({
-            template: '<ion-nav [root]="rootPage"></ion-nav>',
+            templateUrl: 'build/app.html',
             providers: [backend_service_1.BackendService]
         }), 
-        __metadata('design:paramtypes', [ionic_angular_1.Platform])
+        __metadata('design:paramtypes', [ionic_angular_1.Platform, ionic_angular_1.MenuController])
     ], MyApp);
     return MyApp;
 }());
 exports.MyApp = MyApp;
 ionic_angular_1.ionicBootstrap(MyApp);
 
-},{"./pages/home/home.component":2,"./services/backend.service":11,"@angular/core":159,"ionic-angular":473,"ionic-native":500}],2:[function(require,module,exports){
+},{"./pages/home/home.component":2,"./pages/search/search.component":5,"./pages/userList/userList.component":8,"./services/backend.service":11,"@angular/core":159,"ionic-angular":473,"ionic-native":500}],2:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -79,7 +100,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var userList_component_1 = require('../userList/userList.component');
-var UserGroup2_component_1 = require('../userGroup/UserGroup2.component');
 var authentication_service_1 = require('../../services/authentication.service');
 var Landing = (function () {
     function Landing(navCtrl, _service) {
@@ -94,13 +114,13 @@ var Landing = (function () {
         // console.log("asdasd" + this.user1.userName )
     };
     Landing.prototype.showPatientList = function () {
-        this.navCtrl.setRoot(userList_component_1.UserList, { id: UserGroup2_component_1.UserGroup.patient });
+        this.navCtrl.setRoot(userList_component_1.UserList, { title: "Patient List" });
     };
     Landing.prototype.showNurseList = function () {
-        this.navCtrl.setRoot(userList_component_1.UserList, { id: 0 });
+        this.navCtrl.setRoot(userList_component_1.UserList, { title: "Nurse List" });
     };
     Landing.prototype.showDoctorList = function () {
-        this.navCtrl.setRoot(userList_component_1.UserList, { id: 1 });
+        this.navCtrl.setRoot(userList_component_1.UserList, { title: "Doctor List" });
     };
     Landing = __decorate([
         core_1.Component({
@@ -114,7 +134,7 @@ var Landing = (function () {
 }());
 exports.Landing = Landing;
 
-},{"../../services/authentication.service":10,"../userGroup/UserGroup2.component":6,"../userList/userList.component":8,"@angular/core":159,"ionic-angular":473}],4:[function(require,module,exports){
+},{"../../services/authentication.service":10,"../userList/userList.component":8,"@angular/core":159,"ionic-angular":473}],4:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -138,6 +158,8 @@ var LoginComponent = (function () {
         this.errorMsg = '';
     }
     LoginComponent.prototype.login = function () {
+        // Change username to lowercase
+        this.user.userName = this.user.userName.toLowerCase();
         if (!this._service.login(this.user)) {
             this.errorMsg = 'Failed to login';
         }
@@ -157,7 +179,58 @@ var LoginComponent = (function () {
 }());
 exports.LoginComponent = LoginComponent;
 
-},{"../../services/authentication.service":10,"../landing/landing.component":3,"../user/user.component":5,"@angular/core":159,"ionic-angular":473}],5:[function(require,module,exports){
+},{"../../services/authentication.service":10,"../landing/landing.component":3,"../user/user.component":6,"@angular/core":159,"ionic-angular":473}],5:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var backend_service_1 = require('../../services/backend.service');
+var userProfile_component_1 = require('../userProfile/userProfile.component');
+var ionic_angular_1 = require('ionic-angular');
+var SearchPage = (function () {
+    function SearchPage(backendService, navCtrl) {
+        this.backendService = backendService;
+        this.navCtrl = navCtrl;
+        this.searchQuery = '';
+        this.items = [];
+        this.initializeItems();
+    }
+    SearchPage.prototype.initializeItems = function () {
+        this.items = this.backendService.getUsers();
+    };
+    SearchPage.prototype.getItems = function (ev) {
+        // Reset items back to all of the items
+        this.initializeItems();
+        // set val to the value of the searchbar
+        var val = ev.target.value;
+        // if the value is an empty string don't filter the items
+        if (val && val.trim() != '') {
+            this.items = this.items.filter(function (item) {
+                return (item.userName.toLowerCase().indexOf(val.toLowerCase()) > -1);
+            });
+        }
+    };
+    SearchPage.prototype.showUserProfilePage = function (user) {
+        this.navCtrl.push(userProfile_component_1.UserProfile, { "userName": user.userName });
+    };
+    SearchPage = __decorate([
+        core_1.Component({
+            templateUrl: 'build/pages/search/search.html',
+        }), 
+        __metadata('design:paramtypes', [backend_service_1.BackendService, ionic_angular_1.NavController])
+    ], SearchPage);
+    return SearchPage;
+}());
+exports.SearchPage = SearchPage;
+
+},{"../../services/backend.service":11,"../userProfile/userProfile.component":9,"@angular/core":159,"ionic-angular":473}],6:[function(require,module,exports){
 "use strict";
 var User = (function () {
     function User(id, userName, password, userGroup) {
@@ -169,15 +242,6 @@ var User = (function () {
     return User;
 }());
 exports.User = User;
-
-},{}],6:[function(require,module,exports){
-"use strict";
-(function (UserGroup) {
-    UserGroup[UserGroup["nurse"] = 0] = "nurse";
-    UserGroup[UserGroup["doctor"] = 1] = "doctor";
-    UserGroup[UserGroup["patient"] = 2] = "patient";
-})(exports.UserGroup || (exports.UserGroup = {}));
-var UserGroup = exports.UserGroup;
 
 },{}],7:[function(require,module,exports){
 "use strict";
@@ -203,18 +267,32 @@ var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var ionic_angular_2 = require('ionic-angular');
 var backend_service_1 = require('../../services/backend.service');
+var userProfile_component_1 = require('../userProfile/userProfile.component');
 var UserList = (function () {
     function UserList(navCtrl, BackendService, navParams) {
         this.navCtrl = navCtrl;
         this.BackendService = BackendService;
         this.navParams = navParams;
-        this.userGroup = navParams.get('id');
+        this.title = navParams.get('title');
     }
     UserList.prototype.ngOnInit = function () {
-        this.users = this.LoadUserList(this.userGroup);
+        var userGroup;
+        if (this.title === "Nurse List") {
+            userGroup = 0;
+        }
+        else if (this.title === "Doctor List") {
+            userGroup = 1;
+        }
+        else if (this.title === "Patient List") {
+            userGroup = 2;
+        }
+        this.users = this.LoadUserList(userGroup);
     };
     UserList.prototype.LoadUserList = function (userGroup) {
         return this.BackendService.getUsersInUserGroup(userGroup);
+    };
+    UserList.prototype.showUserProfilePage = function (user) {
+        this.navCtrl.push(userProfile_component_1.UserProfile, { "userName": user.userName });
     };
     UserList = __decorate([
         core_1.Component({
@@ -227,20 +305,38 @@ var UserList = (function () {
 }());
 exports.UserList = UserList;
 
-},{"../../services/backend.service":11,"@angular/core":159,"ionic-angular":473}],9:[function(require,module,exports){
+},{"../../services/backend.service":11,"../userProfile/userProfile.component":9,"@angular/core":159,"ionic-angular":473}],9:[function(require,module,exports){
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var core_1 = require('@angular/core');
+var ionic_angular_1 = require('ionic-angular');
 var UserProfile = (function () {
-    function UserProfile(user, userImage, // path to the image location
-        address) {
-        this.user = user;
-        this.userImage = userImage;
-        this.address = address;
+    function UserProfile(navParams) {
+        this.navParams = navParams;
+        this.userName = navParams.get('userName');
+        //this.userImage = navParams.get('userImage'), 
+        //this.address = navParams.get('address');
     }
+    ;
+    UserProfile = __decorate([
+        core_1.Component({ selector: "userProfile-item",
+            templateUrl: "build/pages/userProfile/userProfile.html"
+        }), 
+        __metadata('design:paramtypes', [ionic_angular_1.NavParams])
+    ], UserProfile);
     return UserProfile;
 }());
 exports.UserProfile = UserProfile;
 
-},{}],10:[function(require,module,exports){
+},{"@angular/core":159,"ionic-angular":473}],10:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -304,20 +400,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var user_component_1 = require('../pages/user/user.component');
 var userGroup_component_1 = require('../pages/userGroup/userGroup.component');
-var userProfile_component_1 = require('../pages/userProfile/userProfile.component');
 // var messages = [];
 var BackendService = (function () {
     function BackendService() {
         this.users = [
             new user_component_1.User(1, 'nurse1', '123', userGroup_component_1.UserGroup.nurse),
+            new user_component_1.User(1, 'nurse2', '123', userGroup_component_1.UserGroup.nurse),
+            new user_component_1.User(1, 'nurse3', '123', userGroup_component_1.UserGroup.nurse),
+            new user_component_1.User(1, 'nurse4', '123', userGroup_component_1.UserGroup.nurse),
             new user_component_1.User(2, 'patient1', '123', userGroup_component_1.UserGroup.patient),
+            new user_component_1.User(2, 'patient2', '123', userGroup_component_1.UserGroup.patient),
+            new user_component_1.User(2, 'patient3', '123', userGroup_component_1.UserGroup.patient),
             new user_component_1.User(3, 'doctor1', '123', userGroup_component_1.UserGroup.doctor),
+            new user_component_1.User(3, 'doctor2', '123', userGroup_component_1.UserGroup.doctor),
+            new user_component_1.User(3, 'doctor3', '123', userGroup_component_1.UserGroup.doctor),
+            new user_component_1.User(3, 'doctor4', '123', userGroup_component_1.UserGroup.doctor)
         ];
-        this.UserProfiles = [
-            new userProfile_component_1.UserProfile(this.users.find(function (u) { return u.id === 1; }), 'img/nurse.png', "Vancouver"),
-            new userProfile_component_1.UserProfile(this.users.find(function (u) { return u.id === 2; }), 'img/patient.png', "Vancouver"),
-            new userProfile_component_1.UserProfile(this.users.find(function (u) { return u.id === 3; }), 'img/doctor.png', "Vancouver"),
-        ];
+        this.UserProfiles = [];
     }
     //   deleteMessage(message: Message): void {
     //     localStorage.removeItem("message" + message.id);
@@ -342,10 +441,11 @@ var BackendService = (function () {
     //    return localStorage.getItem("user");
     //  }
     BackendService.prototype.getUsers = function () {
-        console.log("userGroup" + userGroup_component_1.UserGroup.patient);
+        console.log("get Users, size: " + this.users.length);
         return this.users;
     };
     BackendService.prototype.getUsersInUserGroup = function (userGroup) {
+        console.log("getting users for userGroup: " + userGroup);
         return this.users.filter(function (u) { return u.userGroup === userGroup; });
     };
     BackendService.prototype.getUserProfiles = function () {
@@ -359,7 +459,7 @@ var BackendService = (function () {
 }());
 exports.BackendService = BackendService;
 
-},{"../pages/user/user.component":5,"../pages/userGroup/userGroup.component":7,"../pages/userProfile/userProfile.component":9,"@angular/core":159}],12:[function(require,module,exports){
+},{"../pages/user/user.component":6,"../pages/userGroup/userGroup.component":7,"@angular/core":159}],12:[function(require,module,exports){
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.

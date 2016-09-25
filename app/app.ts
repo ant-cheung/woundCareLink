@@ -6,9 +6,9 @@ import { HomePage } from './pages/home/home.component';
 
 import {BackendService} from './services/backend.service';
 
-import { UserList} from './pages/userList/userList';
-import { Landing} from './pages/landing/landing';
-import { SearchPage} from './pages/search/search';
+import { UserList} from './pages/userList/userList.component';
+import { Landing} from './pages/landing/landing.component';
+import { SearchPage} from './pages/search/search.component';
 
 @Component({
   templateUrl: 'build/app.html',

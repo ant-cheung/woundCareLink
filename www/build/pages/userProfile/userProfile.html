@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{ userName}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="false" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;" class=" manual-remove-top-padding has-header">
+<div padding>
+  <ion-segment [(ngModel)]="pet">
+    <ion-segment-button value="Wall">
+      Wall
+    </ion-segment-button>
+    <ion-segment-button value="Connection">
+      Connection
+    </ion-segment-button>
+  </ion-segment>
+</div>
+
+<div [ngSwitch]="pet">
+  <ion-list *ngSwitchCase="'Wall'">
+    <ion-item>
+      <h2>Hello!</h2>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngSwitchCase="'Connection'">
+    <ion-item>
+      <h2>Patient</h2>
+    </ion-item>
+  </ion-list>
+</div>
+</ion-content>

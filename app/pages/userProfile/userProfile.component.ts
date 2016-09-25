@@ -1,11 +1,21 @@
+import {Component} from '@angular/core';
 import {User} from '../user/user.component';
+import { NavParams } from 'ionic-angular';
 
-export class UserProfile
-{
-    constructor(
-        public user: User,
-        public userImage: String,  // path to the image location
-        public address: String
-    )
-    {}
+@Component(
+    {   selector: "userProfile-item",
+        templateUrl: "build/pages/userProfile/userProfile.html"
+    }
+)
+
+export class UserProfile {
+        public userName: String;
+        public userImage: String;
+        public address: String;
+
+    constructor(private navParams: NavParams) { 
+        this.userName = navParams.get('userName');
+        //this.userImage = navParams.get('userImage'), 
+        //this.address = navParams.get('address');
+    };
 }

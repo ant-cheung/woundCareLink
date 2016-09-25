@@ -69,9 +69,9 @@ public getUsersInUserGroup(userGroup: UserGroup): User[]
 ];
 
 UserProfiles = [
-  new UserProfile(this.users.find(u => u.id === 1),'img/nurse.png', "Vancouver"),
-  new UserProfile(this.users.find(u => u.id === 2),'img/patient.png', "Vancouver"),
-  new UserProfile(this.users.find(u => u.id === 3),'img/doctor.png', "Vancouver"),
+  //new UserProfile(this.users.find(u => u.id === 1),'img/nurse.png', "Vancouver"),
+  //new UserProfile(this.users.find(u => u.id === 2),'img/patient.png', "Vancouver"),
+  //new UserProfile(this.users.find(u => u.id === 3),'img/doctor.png', "Vancouver"),
 ];
 
 }
