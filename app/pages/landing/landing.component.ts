@@ -26,14 +26,14 @@ public user: String;
 
     showPatientList() {
         
-        this.navCtrl.setRoot(UserList, { id: UserGroup.patient });
+        this.navCtrl.setRoot(UserList, { title: "Patient List" });
     }
 
     showNurseList() {
-        this.navCtrl.setRoot(UserList, { id: 0 });
+        this.navCtrl.setRoot(UserList, { title: "Nurse List" });
     }
 
     showDoctorList() {
-        this.navCtrl.setRoot(UserList, { id: 1 });
+        this.navCtrl.setRoot(UserList, { title: "Doctor List" });
     }
 }
