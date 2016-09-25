@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {AuthenticationService} from './authentication.service';
-import {User} from './user';
+import {AuthenticationService} from '../../services/authentication.service';
+import {User} from '../user/user.component';
 import { NavController } from 'ionic-angular';
-import { Landing } from '../landing/landing';
+import { Landing } from '../landing/landing.component';
 
 @Component({
     selector: 'login-form',

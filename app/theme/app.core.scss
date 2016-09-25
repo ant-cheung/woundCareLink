@@ -1,3 +1,4 @@
+@charset "UTF-8";
 // http://ionicframework.com/docs/v2/theming/
 
 
@@ -10,3 +11,57 @@
 @import "../pages/home/home";
 
 @import "../pages/login/login.component";
+
+
+@import
+  // Ionicons
+  "ionicons/ionicons.scss",
+
+  // Variables
+  "mixins",
+  "variables",
+
+  // Base
+  "reset",
+  "scaffolding",
+  "type",
+
+  // Components
+  "action-sheet",
+  "backdrop",
+  "bar",
+  "tabs",
+  "menu",
+  "modal",
+  "popover",
+  "popup",
+  "loading",
+  "items",
+  "list",
+  "badge",
+  "slide-box",
+  "slides",
+  "refresher",
+  "spinner",
+
+  // Forms
+  "form",
+  "checkbox",
+  "toggle",
+  "radio",
+  "range",
+  "select",
+  "progress",
+
+  // Buttons
+  "button",
+  "button-bar",
+
+  // Util
+  "grid",
+  "util",
+  "platform",
+
+  // Animations
+  "animations",
+  "transitions";

@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { ionicBootstrap, Platform } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 
-import { HomePage } from './pages/home/home';
+import { HomePage } from './pages/home/home.component';
 
-import {BackendService} from './pages/login/backend.service'
+import {BackendService} from './services/backend.service';
 
 
 @Component({
