@@ -2,6 +2,6 @@
 
 www/*
 !www/img/
-
+!www/index.html
 *.DS_Store
 .DS_Store
