@@ -42,6 +42,7 @@ export class UserList {
 
     showUserProfilePage(user: User)
   {
-      this.navCtrl.push(UserProfile, { "userName": user.userName });
+      // Looks like .push is not working great changed to .setRoot - invesitage this...
+      this.navCtrl.setRoot(UserProfile, { "userName": user.userName });
   }
 }
