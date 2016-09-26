@@ -1,4 +1,7 @@
+!www/
+
 www/*
-!www/img/*
+!www/img/
+
 *.DS_Store
 .DS_Store
