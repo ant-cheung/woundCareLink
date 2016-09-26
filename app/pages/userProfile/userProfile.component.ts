@@ -10,12 +10,10 @@ import { NavParams } from 'ionic-angular';
 
 export class UserProfile {
         public userName: String;
-        public userImage: String;
-        public address: String;
+        // public userImage: String;
+        // public address: String;
 
     constructor(private navParams: NavParams) { 
         this.userName = navParams.get('userName');
-        //this.userImage = navParams.get('userImage'), 
-        //this.address = navParams.get('address');
     };
 }

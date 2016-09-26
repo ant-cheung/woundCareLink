@@ -319,11 +319,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var ionic_angular_1 = require('ionic-angular');
 var UserProfile = (function () {
+    // public userImage: String;
+    // public address: String;
     function UserProfile(navParams) {
         this.navParams = navParams;
         this.userName = navParams.get('userName');
-        //this.userImage = navParams.get('userImage'), 
-        //this.address = navParams.get('address');
     }
     ;
     UserProfile = __decorate([
