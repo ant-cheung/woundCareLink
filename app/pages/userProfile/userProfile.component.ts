@@ -5,7 +5,7 @@ import {BackendService} from '../../services/backend.service'
 
 @Component(
     {   selector: "userProfile-item",
-        templateUrl: "build/pages/userProfile/userProfile.html"
+        templateUrl: "build/pages/userProfile/userProfile2.html"
     }
 )
 
