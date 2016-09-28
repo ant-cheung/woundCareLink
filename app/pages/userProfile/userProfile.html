@@ -28,7 +28,7 @@
                 <label for="recipients" class="item item-select" id="page1-select2">
             <span class="input-label">To:</span>
             <select name="recipients" id="recipients"
-                ngControl="recipients">
+                formControlName="recipients">
               <option *ngFor="let user of allUsers">
                 {{ user.userName }}
               </option>
@@ -37,11 +37,19 @@
                 <label for="messageContent" class="item item-input item-stacked-label" id="page1-input5">
                     <input type="text" placeholder="Write message" style=" display: block;
             float: left;" name="messageContent" id="messageContent" required
-                ngControl="messageContent">
+                formControlName="messageContent">
                     <button type="submit" [disabled]="!form.valid" style=" display: block;
             float: right;">Send</button>
         </label>
             </form>
+        </div>
+        <div>
+          <label class="item">
+            <span *ngFor="let message of profileMessages" >
+              {{ message.content }}
+              <br>
+              </span>
+        </label>
         </div>
         <div id="page1-markdown3" style="color:#383030;font-size:13px;">
             <p>Hello everyone, please check out my welcome video below!</p>

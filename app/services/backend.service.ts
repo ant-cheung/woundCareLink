@@ -1,77 +1,90 @@
 import {Injectable} from '@angular/core';
 import {User} from '../pages/user/user.component';
 import {UserGroup} from '../pages/userGroup/userGroup.component';
-import {UserProfile} from '../pages/userProfile/userProfile.component';
+import {UserProfile} from '../pages/models/userProfile';
+import {Message} from '../pages/message/message.component';
 
 // var messages = [];
 
 @Injectable()
 export class BackendService {
 
-//   deleteMessage(message: Message): void {
-//     localStorage.removeItem("message" + message.id);
-//   }
+  //   deleteMessage(message: Message): void {
+  //     localStorage.removeItem("message" + message.id);
+  //   }
 
+  constructor() {
+    // MessageCount is temprory here because localstorage functionality is limited: only stores key valuee  - not needed once database is hooked up.
+    localStorage.setItem("messageCount", String(0));
+  }
 
-//   addMessage(message: Message): void {
-//     localStorage.setItem("message" + message.id, JSON.stringify(message));
+  addMessage(senderUserName: String, receiverUserName: String, messageContent: String, profileUserName: String): void {
+    // Increase messageCount
+    let messageCount = Number(localStorage.getItem("messageCount")) + 1;
+    localStorage.setItem("messageCount", String(messageCount));
 
-//     // Increase messageCount
-//     var messageCount = localStorage.getItem("messageCount") + 1;
-//     localStorage.setItem("messageCount", messageCount)
-//   }
+    let sender = this.users.find(u => u.userName === senderUserName);
+    let receiver = this.users.find(u => u.userName === receiverUserName);
+    let userProfile = this.UserProfiles.find(u => u.user.userName === profileUserName);
+    let message = new Message(receiver, null, messageContent, sender, Number(messageCount), userProfile, new Date());
 
-//  getMessagesForRecipient(recipient: User): Array<Message>
-//  {
-//    var messageCount = localStorage.getItem("messageCount");
+    // Add message to localStorage
+    localStorage.setItem("message" + message.id, JSON.stringify(message));
+    console.log("Add message successfuly: " + localStorage.getItem("message" + message.id));
+  }
 
-//    // Go through messages to find matching recipient
-//    for(var i=1; i<messageCount + 1; i++)
-//    {
-//       var msg = localStorage.getItem("message" + messageCount);
-//       if (msg !== null)
-//       {
-        
-//       }
-//    }
-//    return localStorage.getItem("user");
-//  }
+  getMessagesForUserProfile(userProfileName: String): Message[] {
+    console.log("getting messages for userProfile name: " + userProfileName);
+    let messages = [];
+    let messageCount = Number(localStorage.getItem("messageCount"));
 
- public getUsers(): User[]
- {
-   console.log("get Users, size: " + this.users.length);
-   return this.users;
- }
+    // Go through messages to find matching userProfile
+    for (let i = 1; i < messageCount + 1; i++) {
+      let msg = localStorage.getItem("message" + i);
+      let message = JSON.parse(msg) as Message;
+      if (message !== null && message.userProfile.user.userName === userProfileName) {
+         console.log("Matching message found adding to profile: " + message.content);
+        messages.push(message);
+      }
+    }
+    console.log("Total messages: " + messages.length +  "retrieved for userProfilename: " + userProfileName);
+    return messages;
+  }
 
-public getUsersInUserGroup(userGroup: UserGroup): User[]
- {
-   console.log("getting users for userGroup: " + userGroup);
-   return this.users.filter(u => u.userGroup === userGroup);
- }
+  public getUsers(): User[] {
+    console.log("get Users, size: " + this.users.length);
+    return this.users;
+  }
 
- public getUserProfiles(): UserProfile[]
- {
-   return this.UserProfiles;
- }
+  public getUsersInUserGroup(userGroup: UserGroup): User[] {
+    console.log("getting users for userGroup: " + userGroup);
+    return this.users.filter(u => u.userGroup === userGroup);
+  }
 
- users = [
-  new User(1, 'nurse1', '123', UserGroup.nurse),
-  new User(1, 'nurse2', '123', UserGroup.nurse),
-  new User(1, 'nurse3', '123', UserGroup.nurse),
-  new User(1, 'nurse4', '123', UserGroup.nurse),
-  new User(2, 'patient1', '123', UserGroup.patient),
-  new User(2, 'patient2', '123', UserGroup.patient),
-  new User(2, 'patient3', '123', UserGroup.patient),
-  new User(3, 'doctor1', '123', UserGroup.doctor),
-  new User(3, 'doctor2', '123', UserGroup.doctor),
-  new User(3, 'doctor3', '123', UserGroup.doctor),
-  new User(3, 'doctor4', '123', UserGroup.doctor)
-];
+  public getUserProfiles(): UserProfile[] {
+    return this.UserProfiles;
+  }
 
-UserProfiles = [
-  //new UserProfile(this.users.find(u => u.id === 1),'img/nurse.png', "Vancouver"),
-  //new UserProfile(this.users.find(u => u.id === 2),'img/patient.png', "Vancouver"),
-  //new UserProfile(this.users.find(u => u.id === 3),'img/doctor.png', "Vancouver"),
-];
+  users = [
+    new User(1, 'nurse1', '123', UserGroup.nurse),
+    new User(1, 'nurse2', '123', UserGroup.nurse),
+    new User(1, 'nurse3', '123', UserGroup.nurse),
+    new User(1, 'nurse4', '123', UserGroup.nurse),
+    new User(2, 'patient1', '123', UserGroup.patient),
+    new User(2, 'patient2', '123', UserGroup.patient),
+    new User(2, 'patient3', '123', UserGroup.patient),
+    new User(3, 'doctor1', '123', UserGroup.doctor),
+    new User(3, 'doctor2', '123', UserGroup.doctor),
+    new User(3, 'doctor3', '123', UserGroup.doctor),
+    new User(3, 'doctor4', '123', UserGroup.doctor)
+  ];
+
+  UserProfiles = [
+    new UserProfile(this.users.find(u => u.id === 1), 'img/nurse.png'),
+    new UserProfile(this.users.find(u => u.id === 2), 'img/patient.png'),
+    new UserProfile(this.users.find(u => u.id === 3), 'img/doctor.png'),
+  ];
+
+  Messages: Message[];
 
 }

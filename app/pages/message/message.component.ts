@@ -1,6 +1,6 @@
-import {UserProfile} from './userProfile';
-import {User} from './user';
-import {UserGroup} from './UserGroup';
+import {User} from '../user/user.component';
+import {UserGroup} from '../userGroup/userGroup.component';
+import {UserProfile} from '../models/userProfile';
 
 export class Message {
   constructor(
@@ -9,6 +9,6 @@ export class Message {
     public content: String,
     public sender: User,
     public id: Number,
-    public profileId: Number,
+    public userProfile: UserProfile,
     public dateCreated: Date) { }
 }
