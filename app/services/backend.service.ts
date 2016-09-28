@@ -67,22 +67,30 @@ export class BackendService {
 
   users = [
     new User(1, 'nurse1', '123', UserGroup.nurse),
-    new User(1, 'nurse2', '123', UserGroup.nurse),
-    new User(1, 'nurse3', '123', UserGroup.nurse),
-    new User(1, 'nurse4', '123', UserGroup.nurse),
-    new User(2, 'patient1', '123', UserGroup.patient),
-    new User(2, 'patient2', '123', UserGroup.patient),
-    new User(2, 'patient3', '123', UserGroup.patient),
-    new User(3, 'doctor1', '123', UserGroup.doctor),
-    new User(3, 'doctor2', '123', UserGroup.doctor),
-    new User(3, 'doctor3', '123', UserGroup.doctor),
-    new User(3, 'doctor4', '123', UserGroup.doctor)
+    new User(2, 'nurse2', '123', UserGroup.nurse),
+    new User(3, 'nurse3', '123', UserGroup.nurse),
+    new User(4, 'nurse4', '123', UserGroup.nurse),
+    new User(5, 'patient1', '123', UserGroup.patient),
+    new User(6, 'patient2', '123', UserGroup.patient),
+    new User(7, 'patient3', '123', UserGroup.patient),
+    new User(8, 'doctor1', '123', UserGroup.doctor),
+    new User(9, 'doctor2', '123', UserGroup.doctor),
+    new User(10, 'doctor3', '123', UserGroup.doctor),
+    new User(11, 'doctor4', '123', UserGroup.doctor)
   ];
 
   UserProfiles = [
     new UserProfile(this.users.find(u => u.id === 1), 'img/nurse.png'),
-    new UserProfile(this.users.find(u => u.id === 2), 'img/patient.png'),
-    new UserProfile(this.users.find(u => u.id === 3), 'img/doctor.png'),
+    new UserProfile(this.users.find(u => u.id === 2), 'img/nurse.png'),
+    new UserProfile(this.users.find(u => u.id === 3), 'img/nurse.png'),
+    new UserProfile(this.users.find(u => u.id === 4), 'img/nurse.png'),
+    new UserProfile(this.users.find(u => u.id === 5), 'img/patient.png'),
+    new UserProfile(this.users.find(u => u.id === 6), 'img/patient.png'),
+    new UserProfile(this.users.find(u => u.id === 7), 'img/patient.png'),
+    new UserProfile(this.users.find(u => u.id === 8), 'img/doctor.png'),
+    new UserProfile(this.users.find(u => u.id === 9), 'img/doctor.png'),
+    new UserProfile(this.users.find(u => u.id === 10), 'img/doctor.png'),
+    new UserProfile(this.users.find(u => u.id === 11), 'img/doctor.png'),
   ];
 
   Messages: Message[];
