@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding="false" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;" class=" manual-remove-top-padding has-header">
+<ion-list>
+  <ion-item *ngFor="let user of users">
+   <button (click)="showUserProfilePage(user)">
+      {{ user.userName }}
+    </button>
+    
+  </ion-item>
+</ion-list>
+</ion-content>
