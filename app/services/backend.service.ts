@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {User} from '../pages/user/user.component';
 import {UserGroup} from '../pages/userGroup/userGroup.component';
 import {UserProfile} from '../pages/models/userProfile';
+import {Notification} from '../pages/models/notification';
 import {Message} from '../pages/message/message.component';
+import {NotificationKind} from '../pages/models/notificationKind';
 
 // var messages = [];
 
@@ -14,8 +16,9 @@ export class BackendService {
   //   }
 
   constructor() {
-    // MessageCount is temprory here because localstorage functionality is limited: only stores key valuee  - not needed once database is hooked up.
+    // MessageCount and notificationCount are temprory here because localstorage functionality is limited: only stores key valuee  - not needed once database is hooked up.
     localStorage.setItem("messageCount", String(0));
+    localStorage.setItem("notificationCount", String(0));
   }
 
   addMessage(senderUserName: String, receiverUserName: String, messageContent: String, profileUserName: String): void {
@@ -31,6 +34,22 @@ export class BackendService {
     // Add message to localStorage
     localStorage.setItem("message" + message.id, JSON.stringify(message));
     console.log("Add message successfuly: " + localStorage.getItem("message" + message.id));
+  }
+
+  addNotification(senderUserName: String, receiverUserName: String, profileUserName: String, notificationKind: NotificationKind): void 
+  {
+    // Increase notificationCount
+    let notificationCount = Number(localStorage.getItem("notificationCount")) + 1;
+    localStorage.setItem("notificationCount", String(notificationCount));
+    
+    let receiver = this.users.find(u => u.userName === receiverUserName);
+    let sender = this.UserProfiles.find(u => u.user.userName === senderUserName);
+    let userProfile = this.UserProfiles.find(u => u.user.userName === profileUserName);
+    let notification = new Notification(Number(notificationCount), receiver, new Date(), sender, userProfile, notificationKind);
+
+    // Add notification to localStorage
+    localStorage.setItem("notification" + notification.id, JSON.stringify(notification));
+    console.log("Add notification successfuly: " + localStorage.getItem("notification" + notification.id));
   }
 
   getMessagesForUserProfile(userProfileName: String): Message[] {
@@ -49,6 +68,24 @@ export class BackendService {
     }
     console.log("Total messages: " + messages.length +  "retrieved for userProfilename: " + userProfileName);
     return messages;
+  }
+
+  getNotificationsForUser(userName: String): Notification[] {
+    console.log("getting notifications for userName: " + userName);
+    let notifications = [];
+    let notificationCount = Number(localStorage.getItem("notificationCount"));
+
+    // Go through notifications to find matching
+    for (let i = 1; i < notificationCount + 1; i++) {
+      let msg = localStorage.getItem("notification" + i);
+      let notification = JSON.parse(msg) as Notification;
+      if (notification !== null && notification.recieveruser.userName === userName) {
+         console.log("Matching notification found adding to notification list: " + notification.id);
+        notifications.push(notification);
+      }
+    }
+    console.log("Total notifications: " + notifications.length +  "retrieved for userName: " + userName);
+    return notifications;
   }
 
   public getUsers(): User[] {
@@ -94,5 +131,5 @@ export class BackendService {
   ];
 
   Messages: Message[];
-
+  Notifications: Notification[]; 
 }
