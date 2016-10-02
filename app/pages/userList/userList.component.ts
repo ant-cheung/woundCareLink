@@ -8,7 +8,7 @@ import {UserGroup} from '../userGroup/userGroup.component';
 
 @Component({
     selector: 'userlist-form',
-    templateUrl: 'build/pages/userlist/userList.html'
+    templateUrl: 'build/pages/userList/userList.html'
 })
 
 export class UserList {

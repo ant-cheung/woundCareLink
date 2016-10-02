@@ -35,6 +35,7 @@ export class MyApp {
       { title: 'Doctor List', component: UserList },
       { title: 'Search', component: SearchPage },
       { title: 'Notifications', component: NotificationList },
+      { title: 'Dashboard', component: Landing },
       { title: 'Logout', component: HomePage }
     ];
 
