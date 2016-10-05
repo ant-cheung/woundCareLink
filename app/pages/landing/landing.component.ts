@@ -3,6 +3,8 @@ import { NavController } from 'ionic-angular';
 import { UserList} from '../userList/userList.component';
 import {UserGroup} from '../userGroup/UserGroup2.component';
 import {AuthenticationService} from '../../services/authentication.service';
+import { SearchPage } from '../search/search.component';
+import { NotificationList } from '../notificationList/notificationList.component';
 
 @Component({
     selector: 'landing-form',
@@ -26,14 +28,22 @@ public user: String;
 
     showPatientList() {
         
-        this.navCtrl.setRoot(UserList, { title: "Patient List" });
+        this.navCtrl.setRoot(UserList, { title: "Patients" });
     }
 
     showNurseList() {
-        this.navCtrl.setRoot(UserList, { title: "Nurse List" });
+        this.navCtrl.setRoot(UserList, { title: "Nurses" });
     }
 
     showDoctorList() {
-        this.navCtrl.setRoot(UserList, { title: "Doctor List" });
+        this.navCtrl.setRoot(UserList, { title: "Doctors" });
+    }
+
+    showNotification(){
+        this.navCtrl.setRoot(NotificationList);
+    }
+
+    showSearch(){
+        this.navCtrl.setRoot(SearchPage);
     }
 }

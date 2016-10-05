@@ -8,30 +8,34 @@ import {UserGroup} from '../userGroup/userGroup.component';
 
 @Component({
     selector: 'userlist-form',
-    templateUrl: 'build/pages/userlist/userList.html'
+    templateUrl: 'build/pages/userList/userList.html'
 })
 
 export class UserList {
 
     public title: String;
     public users: User[]; 
+    public imageSource: String;
     constructor(private navCtrl: NavController, private BackendService: BackendService, private navParams: NavParams) {
      this.title = navParams.get('title'); 
         }
 
     ngOnInit() {
         let userGroup: UserGroup;
-        if (this.title === "Nurse List")
+        if (this.title === "Nurses")
         {
             userGroup = 0;
+            this.imageSource = "img/5etYz351QpGgh0Dw9Bvz_Nursesicon.png";
         }
-        else if (this.title === "Doctor List")
+        else if (this.title === "Doctors")
         {
             userGroup = 1;
+            this.imageSource = "img/LP9lKYSPQAWB66Ue4M9o_Physiciansicon.png";
         }        
-        else if (this.title === "Patient List")
+        else if (this.title === "Patients")
         {
             userGroup = 2;
+            this.imageSource = "img/dxF0CLThqXNbpdxT7xsw_RecentPationtsIcon.png";
         }
         this.users = this.LoadUserList(userGroup);
     }
