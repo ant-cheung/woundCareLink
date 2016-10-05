@@ -28,15 +28,15 @@ public user: String;
 
     showPatientList() {
         
-        this.navCtrl.setRoot(UserList, { title: "Patient List" });
+        this.navCtrl.setRoot(UserList, { title: "Patients" });
     }
 
     showNurseList() {
-        this.navCtrl.setRoot(UserList, { title: "Nurse List" });
+        this.navCtrl.setRoot(UserList, { title: "Nurses" });
     }
 
     showDoctorList() {
-        this.navCtrl.setRoot(UserList, { title: "Doctor List" });
+        this.navCtrl.setRoot(UserList, { title: "Doctors" });
     }
 
     showNotification(){

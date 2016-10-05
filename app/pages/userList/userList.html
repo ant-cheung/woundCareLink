@@ -3,17 +3,27 @@
     <button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{title}}</ion-title>
+    <ion-title></ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding="false" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;" class=" manual-remove-top-padding has-header">
-<ion-list>
-  <ion-item *ngFor="let user of users">
-   <button (click)="showUserProfilePage(user)">
-      {{ user.userName }}
-    </button>
-    
-  </ion-item>
-</ion-list>
+<ion-content padding="false" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;"
+  class=" manual-remove-top-padding has-header">
+  <ion-list id="page11-list13">
+    <ion-item class="item-thumbnail-left item-icon-right" id="page11-list-item46" ui-sref="menu.search">
+      <img src="{{imageSource}}">
+      <h2>{{title}} - VCH</h2>
+      <p>234 Granville avenue</p>
+      <i class="icon ion-ios-search-strong"></i>
+    </ion-item>
+  </ion-list>
+  <div class="spacer" style="width: 320px; height: 32px;"></div>
+  <ion-list id="page11-list9">
+    <ion-item class="item-icon-left item-icon-right dark" id="page11-list-item35" ui-sref="menu.page1" *ngFor="let user of users"
+      (click)="showUserProfilePage(user)">
+      <i class="icon ion-ios-person"></i>{{ user.userName }} - RN#
+      <span class="item-note">Vancouver Coastal Health</span>
+      <i class="icon ion-ios-arrow-forward"></i>
+    </ion-item>
+  </ion-list>
 </ion-content>
