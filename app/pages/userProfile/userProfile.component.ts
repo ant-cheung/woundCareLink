@@ -24,7 +24,7 @@ export class UserProfile {
 
     constructor(private navParams: NavParams,private backendService: BackendService, private authenticationService: AuthenticationService) { 
         this.userName = navParams.get('userName');
-        //this.userImage = navParams.get('userImage'), 
+        this.userImage = navParams.get('userImage'), 
         //this.address = navParams.get('address');
         this.allUsers = this.backendService.getUsers();
         this.profileMessages = this.backendService.getMessagesForUserProfile(this.userName);

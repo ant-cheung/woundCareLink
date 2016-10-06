@@ -31,7 +31,7 @@ export class MyApp {
     // set our app's pages
     this.pages = [
       { title: 'Dashboard', component: Landing },
-      { title: 'Recent Patients', component: UserList },
+      { title: 'Patients', component: UserList },
       { title: 'Nurses', component: UserList },
       { title: 'Doctors', component: UserList },
       { title: 'Search', component: SearchPage },
