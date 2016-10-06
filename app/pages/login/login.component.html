@@ -1,10 +1,11 @@
 <ion-view title="login" hide-nav-bar="true" id="page4" scroll="false">
-    <ion-content padding="true" style="background: url(img/login_bg.png) no-repeat center;background-size:cover;" class="manual-ios-statusbar-padding" scroll="false">
+    <ion-content padding="true" style="background: url(img/login_bg.png) no-repeat center;background-size:cover;" scroll="false">
         
-            <div class="spacer" style="width: 300px; height: 199px;"></div>
+            <div class="spacer" style="width: 100%; height: 40%;"></div>
             <h2 id="login-heading1" style="color:#FFFFFF;text-align:center;">WoundCareLink</h2>
-            <div class="spacer" style="width: 300px; height: 40px;"></div>
+            <div class="spacer" style="width: 100%; height: 3%;"></div>
             <ion-list id="login-list2">
+                <span class="alert-message"> {{errorMsg}}</span>
                 <label class="item item-input" id="login-input1">
                     <span class="input-label">Username</span>
                     <input [(ngModel)]="user.userName" type="text" class="validate" placeholder="">
@@ -17,8 +18,7 @@
             </ion-list>
         
         <button id="login-button1" (click)="login()" type="submit" name="action" class="button button-stable  button-block">Log in</button>
-        <span>{{errorMsg}}</span>
-        <a href="#" onclick="window.open('/signup', '_system', 'location=yes'); return false;" id="login-button2" class="button button-dark button-small button-block button-clear">Don't have an account? Sign Up</a>
+        <a href="#" onclick="signUp()" id="login-button2" class="button button-dark button-small button-block button-clear">Don't have an account? Sign Up</a>
     </ion-content>
 </ion-view>
 

@@ -1,37 +1,96 @@
 <ion-header>
-  <ion-navbar>
+  <ion-toolbar>
     <button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Welcome {{ user }} to WoundCareApp</ion-title>
-  </ion-navbar>
+    <ion-subtitle>Welcome ({{ user }}) to WoundCareLink!</ion-subtitle>
+  </ion-toolbar>
 </ion-header>
 
- <ion-content padding="false" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;" class=" manual-remove-top-padding has-header">
-         <div class="container" >
-                <div class="content">
-                    <span></span>
-                </div>
+<ion-content style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;">
+  <div class="spacer" style="width: 100%; height: 4%;"></div>
 
-                <ion-grid>
+  <div class="row row-wrap row-no-padding">
+    <div class="col col-50">
+      <div class="card margin-none" (click)="showPatientList()">
+        <div class="item item-avatar-center">
+          <img src="img/dxF0CLThqXNbpdxT7xsw_RecentPationtsIcon.png" />
+          <h2>Recent Patients</h2>
+          <p>Jan. 1st, 2016</p>
+        </div>
+        <div class="item item-divider">
+          VCH Group
+        </div>
+      </div>
+    </div>
+    <div class="col col-50">
+      <div class="card margin-none" (click)="showPatientList()">
+        <div class="item item-avatar-center">
+          <img src="img/dxF0CLThqXNbpdxT7xsw_RecentPationtsIcon.png" />
+          <h2>All Patients</h2>
+          <p>All year round</p>
+        </div>
+        <div class="item item-divider">
+          BC
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <ion-row>
-       <button id="page-button1" (click)="showPatientList()" style="left:-10px;color:#000000;border-radius:4px 4px 4px 4px;" class="button button-light  button-full button-outline">Patients List</button>
-       <button id="page-button1" (click)="showNurseList()" style="left:-10px;color:#000000;border-radius:4px 4px 4px 4px;" class="button button-light  button-full button-outline">Nurses List</button>
-  </ion-row>
-    <ion-row>
-       <button id="page-button1" (click)="showDoctorList()" style="left:-10px;color:#000000;border-radius:4px 4px 4px 4px;" class="button button-light  button-full button-outline">Doctors List</button>
-       <button id="page-button1" (click)="showNotification()" style="left:-10px;color:#000000;border-radius:4px 4px 4px 4px;" class="button button-light  button-full button-outline">Notifications</button>
-  </ion-row>
+  <div class="row row-wrap row-no-padding">
+    <div class="col col-50">
+      <div class="card margin-none" (click)="showNurseList()">
+        <div class="item item-avatar-center">
+          <img src="img/5etYz351QpGgh0Dw9Bvz_Nursesicon.png" />
+          <h2>Nurses</h2>
+          <p>Week 8 - 2016</p>
+        </div>
+        <div class="item item-divider">
+          VCH Group
+        </div>
+      </div>
+    </div>
+    <div class="col col-50">
+      <div class="card margin-none" (click)="showDoctorList()">
+        <div class="item item-avatar-center">
+          <img src="img/k7LBHDo4Rs23aIhVpLhF_Physiciansicon.png" />
+          <h2>Physicians</h2>
+          <p>Week 8 - 2016</p>
+        </div>
+        <div class="item item-divider">
+          VCH Group
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <ion-row>
-       <button id="page-button1" (click)="showSearch()" style="left:-10px;color:#000000;border-radius:4px 4px 4px 4px;" class="button button-light  button-full button-outline">Search</button>
-  </ion-row>
+  <div class="row row-wrap row-no-padding">
+    <div class="col col-50">
+      <div class="card margin-none" (click)="showSearch()">
+        <div class="item item-avatar-center">
+          <ion-icon class="icon search" name="search"></ion-icon>
+          <h2>Search</h2>
+          <p>WoundCareLink</p>
+        </div>
+        <div class="item item-divider">
+          
+        </div>
+      </div>
+    </div>
+    <div class="col col-50">
+      <div class="card margin-none" (click)="showNotification()">
+        <div class="item item-avatar-center">
+        <ion-icon class="icon notifications-assertive" name="notifications"></ion-icon>
+          <h2>Notifications</h2>
+          <p>12 unread Messages</p>
+        </div>
+        <div class="item item-divider">
+          
+        </div>
+      </div>
+    </div>
+  </div>
+ 
 
-</ion-grid>
-
-            </div>
-</ion-content>
-
-
+  </ion-content>
 

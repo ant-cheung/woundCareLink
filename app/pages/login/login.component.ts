@@ -22,7 +22,7 @@ export class LoginComponent {
         // Change username to lowercase
         this.user.userName = this.user.userName.toLowerCase();
         if (!this._service.login(this.user)) {
-            this.errorMsg = 'Failed to login';
+            this.errorMsg = 'Failed to login! Username or Password is invalid.';
         }
         else {
             this.navCtrl.setRoot(Landing);

@@ -30,12 +30,12 @@ export class MyApp {
 
     // set our app's pages
     this.pages = [
-      { title: 'Patients', component: UserList },
+      { title: 'Dashboard', component: Landing },
+      { title: 'Recent Patients', component: UserList },
       { title: 'Nurses', component: UserList },
       { title: 'Doctors', component: UserList },
       { title: 'Search', component: SearchPage },
       { title: 'Notifications', component: NotificationList },
-      { title: 'Dashboard', component: Landing },
       { title: 'Logout', component: HomePage }
     ];
 
@@ -47,6 +47,11 @@ export class MyApp {
     // navigate to the new page if it is not the current page
     this.nav.setRoot(page.component, { title: page.title });
   }
+
+  // getUser() {
+
+  //   return user;
+  // }
 
 }
 
