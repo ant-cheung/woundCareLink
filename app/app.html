@@ -5,7 +5,7 @@
       <ion-label class="padding">
         <ion-avatar>
             <img src="img/k7LBHDo4Rs23aIhVpLhF_Physiciansicon.png" class="padding"> 
-            Dr. Oz<br/>
+           <div *ngIf="currentUser"> {{ currentUser.userName }} </div> <br/>
             oz.donald@woundcare.com
           </ion-avatar>
         </ion-label>

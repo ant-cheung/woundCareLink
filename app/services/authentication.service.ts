@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {User} from '../pages/user/user.component';
-import {BackendService} from './backend.service'
+import {BackendService} from './backend.service';
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class AuthenticationService {
 
-  constructor(private backendService: BackendService) { }
+  constructor(private backendService: BackendService,public events: Events) { }
 
   private currentUser: User;
 
@@ -21,6 +22,10 @@ export class AuthenticationService {
       localStorage.setItem("user", JSON.stringify(authenticatedUser));
       console.log("usergroup:" + authenticatedUser.userGroup);
       this.currentUser = user;
+      
+      // Publish event for user signin, to use by app.ts  
+      this.events.publish('user:signin');
+      
       return true;
     }
     return false;
