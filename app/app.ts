@@ -1,11 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { ionicBootstrap, Platform, MenuController, Nav } from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
-
 import { HomePage } from './pages/home/home.component';
-
 import {BackendService} from './services/backend.service';
-
 import { UserList} from './pages/userList/userList.component';
 import { Landing} from './pages/landing/landing.component';
 import { SearchPage} from './pages/search/search.component';
@@ -17,7 +14,6 @@ import { NotificationList} from './pages/notificationList/notificationList.compo
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  
   rootPage: any = HomePage;
   pages: Array<{title: string, component: any}>;
 
@@ -46,12 +42,8 @@ export class MyApp {
     this.menu.close();
     // navigate to the new page if it is not the current page
     this.nav.setRoot(page.component, { title: page.title });
-  }
+    }
 
-  // getUser() {
-
-  //   return user;
-  // }
 
 }
 

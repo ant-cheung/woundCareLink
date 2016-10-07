@@ -18,7 +18,7 @@ export class AuthenticationService {
   login(user: User) {
     var authenticatedUser = this.backendService.getUsers().find(u => u.userName === user.userName);
     if (authenticatedUser) {
-      localStorage.setItem("user", authenticatedUser.userName);
+      localStorage.setItem("user", JSON.stringify(authenticatedUser));
       console.log("usergroup:" + authenticatedUser.userGroup);
       this.currentUser = user;
       return true;
@@ -33,8 +33,8 @@ export class AuthenticationService {
     else { return true; }
   }
 
-  getCurrentUser(): String {
-    return localStorage.getItem("user");
+  getCurrentUser(): User {
+    return JSON.parse(localStorage.getItem("user")) as User;
   }
 
 }

@@ -44,10 +44,10 @@ export class UserProfile {
        let messageContent = this.form.controls['messageContent'];
 
        // Add message
-       this.backendService.addMessage(this.authenticationService.getCurrentUser(),recipients.value,messageContent.value,this.userName);
+       this.backendService.addMessage(this.authenticationService.getCurrentUser().userName,recipients.value,messageContent.value,this.userName);
 
        // Add notification
-       this.backendService.addNotification(this.authenticationService.getCurrentUser(),recipients.value,this.userName,NotificationKind.Message);
+       this.backendService.addNotification(this.authenticationService.getCurrentUser().userName,recipients.value,this.userName,NotificationKind.Message);
 
        // Update profile messages
        this.profileMessages = this.backendService.getMessagesForUserProfile(this.userName);

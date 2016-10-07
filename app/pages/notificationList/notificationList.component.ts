@@ -19,7 +19,7 @@ export class NotificationList {
   }
 
   initializeItems() {
-    this.notifications = this.backendService.getNotificationsForUser(this._service.getCurrentUser());
+    this.notifications = this.backendService.getNotificationsForUser(this._service.getCurrentUser().userName);
   }
 
   notificationClicked(notification: Notification)

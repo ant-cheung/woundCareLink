@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { UserList} from '../userList/userList.component';
+import {User} from '../user/user.component';
 import {UserGroup} from '../userGroup/UserGroup2.component';
 import {AuthenticationService} from '../../services/authentication.service';
 import { SearchPage } from '../search/search.component';
@@ -14,7 +15,7 @@ import { NotificationList } from '../notificationList/notificationList.component
 
 export class Landing {
 
-public user: String;
+public user: User;
     constructor(private navCtrl: NavController,private _service: AuthenticationService) {
     }
 
