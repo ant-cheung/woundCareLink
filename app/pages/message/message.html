@@ -1,0 +1,39 @@
+<ion-card>
+    <ion-card-header>
+        From: {{ message.sender.userName }}
+    </ion-card-header>
+    <ion-card-content>
+        {{ message.content }}
+    </ion-card-content>
+    <ion-row>
+        <ion-col>
+            <button primary clear small (click)="openComments()">
+                            <ion-icon name="text"></ion-icon>
+                            <div>{{ subMessages.length }} Comments</div>
+                        </button>
+        </ion-col>
+        <ion-col>
+            <button primary clear small (click)="openMessage()">
+                            <ion-icon name="text"></ion-icon>
+                            <div>Write reply...</div>
+                        </button>
+        </ion-col>
+        <ion-col center text-center>
+            <ion-note>
+                11h ago
+            </ion-note>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <div *ngIf="showComments">
+            <label class="item" *ngFor="let message of subMessages">
+                            <MessageComponent-item [init]="message"></MessageComponent-item>
+                            </label>
+        </div>
+    </ion-row>
+    <ion-row>
+        <div *ngIf="showReplyDialog">
+            <SendMessageComponent-item [init]="message"></SendMessageComponent-item>
+        </div>
+    </ion-row>
+</ion-card>

@@ -1,37 +1,38 @@
-  <ion-header>
-    <ion-navbar class="item item-icon-right margin-none">
-      <button menuToggle><ion-icon name="menu"></ion-icon></button>
-      <ion-subtitle>{{userName}}'s Profile</ion-subtitle>
+<ion-header>
+  <ion-navbar class="item item-icon-right margin-none">
+    <button menuToggle><ion-icon name="menu"></ion-icon></button>
+    <ion-subtitle>{{userName}}'s Profile</ion-subtitle>
     <ion-icon class="icon search" name="search"></ion-icon>
-    </ion-navbar>
-  </ion-header>
+  </ion-navbar>
+</ion-header>
 
-  <ion-content padding="true" style="background: url(img/FtpTXimGTuGbVjmzFX0i_login-1.png) no-repeat center;background-size:cover;"
-    class="no-header">
-    <ion-list id="page1-list11">
-      <ion-item class="item item-text-wrap row row-no-padding"  padding="false">
-    <div class="row row-wrap row-no-padding" padding="false">
-      <div class="col col-50">
-        <img src="{{ userImage }}">
-        <h2>{{ userName }}</h2>
-        <p>Available</p> 
+<ion-content padding="true" style="background: url(img/FtpTXimGTuGbVjmzFX0i_login-1.png) no-repeat center;background-size:cover;"
+  class="no-header">
+  <ion-list id="page1-list11">
+    <ion-item class="item item-text-wrap row row-no-padding" padding="false">
+      <div class="row row-wrap row-no-padding" padding="false">
+        <div class="col col-50">
+          <img src="{{ userImage }}">
+          <h2>{{ userName }}</h2>
+          <p>Available</p>
+        </div>
+        <div class="col col-50">
+          <p>Share any relevant message (as Questions, Answers, or comments) with your colleagues on {{userName}}'s profile
+            wall.</p>
+        </div>
       </div>
-      <div class="col col-50">
-        <p>Share any relevant message (as Questions, Answers, or comments) with your colleagues on {{userName}}'s profile wall.</p>
-      </div>  
-    </div>
-  </ion-item>
+    </ion-item>
 
 
-    </ion-list>
-    <div id="page1-button-bar4" class="button-bar">
-      <button id="page1-button14" style="border-radius:0px 0px 0px 0px;" class="button button-stable  button-block">Wall</button>
-      <button id="page1-button15" class="button button-dark  button-block">Connect</button>
-      <button id="page1-button16" class="button button-dark  button-block">Logs</button>
-    </div>
-    <div class="item item-body" id="page1-list-item-container2">
-      <form [formGroup]="form" class="list" (ngSubmit)="sendMessage(form.value)">
-        <label for="recipients" class="item item-select" id="page1-select2">
+  </ion-list>
+  <div id="page1-button-bar4" class="button-bar">
+    <button id="page1-button14" style="border-radius:0px 0px 0px 0px;" class="button button-stable  button-block">Wall</button>
+    <button id="page1-button15" class="button button-dark  button-block">Connect</button>
+    <button id="page1-button16" class="button button-dark  button-block">Logs</button>
+  </div>
+  <div class="item item-body" id="page1-list-item-container2">
+    <form [formGroup]="form" class="list" (ngSubmit)="sendMessage(form.value)">
+      <label for="recipients" class="item item-select" id="page1-select2">
             <span class="input-label">To:</span>
             <select name="recipients" id="recipients"
                 formControlName="recipients">
@@ -40,32 +41,18 @@
               </option>
             </select>
         </label>
-        <label for="messageContent" class="item item-input item-stacked-label" id="page1-input5">
+      <label for="messageContent" class="item item-input item-stacked-label" id="page1-input5">
                     <input type="text" placeholder="Write message" style="display: block;
             float: left; padding:5px;" name="messageContent" id="messageContent" required
                 formControlName="messageContent">
                     <button class="button-dark" type="submit" [disabled]="!form.valid" style=" display: block;
             float: right;">Send</button>
         </label>
-      </form>
-    </div>
-    <div>
-      <label class="item">
-        <ion-card *ngFor="let message of profileMessages">
-          <ion-card-header>
-            From: {{ message.sender.userName }}
-          </ion-card-header>
-          <ion-card-content>
-            {{ message.content }}
-          </ion-card-content>
-        </ion-card>
-        </label>
-    </div>
-    <!--<div id="page1-markdown3" style="color:#383030;font-size:13px;">
-      <p>Hello everyone, please check out my welcome video below!</p>
-    </div>-->
-    <div style="position:relative;overflow:hidden;padding-bottom:56.25%;height:0;" id="page1-video1">
-      <iframe src="https://www.youtube.com/embed/lTLTs2ZA2JQ?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen="" width="560"
-        height="315" style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-    </div>
-  </ion-content>
+    </form>
+  </div>
+  <div>
+    <label class="item" *ngFor="let message of profileMessages | filterProfileMessages">
+      <MessageComponent-item [init]="message"></MessageComponent-item>
+      </label>
+  </div>
+</ion-content>

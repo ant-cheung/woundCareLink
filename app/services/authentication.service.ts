@@ -21,7 +21,7 @@ export class AuthenticationService {
     if (authenticatedUser) {
       localStorage.setItem("user", JSON.stringify(authenticatedUser));
       console.log("usergroup:" + authenticatedUser.userGroup);
-      this.currentUser = user;
+      this.currentUser = authenticatedUser;
       
       // Publish event for user signin, to use by app.ts  
       this.events.publish('user:signin');

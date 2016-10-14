@@ -3,7 +3,7 @@ import {User} from '../pages/user/user.component';
 import {UserGroup} from '../pages/userGroup/userGroup.component';
 import {UserProfile} from '../pages/models/userProfile';
 import {Notification} from '../pages/models/notification';
-import {Message} from '../pages/message/message.component';
+import {Message} from '../pages/models/message';
 import {NotificationKind} from '../pages/models/notificationKind';
 
 // var messages = [];
@@ -21,7 +21,7 @@ export class BackendService {
     localStorage.setItem("notificationCount", String(0));
   }
 
-  addMessage(senderUserName: String, receiverUserName: String, messageContent: String, profileUserName: String): void {
+  addMessage(senderUserName: String, receiverUserName: String, messageContent: String, profileUserName: String, parentMessageId: Number): void {
     // Increase messageCount
     let messageCount = Number(localStorage.getItem("messageCount")) + 1;
     localStorage.setItem("messageCount", String(messageCount));
@@ -29,19 +29,18 @@ export class BackendService {
     let sender = this.users.find(u => u.userName === senderUserName);
     let receiver = this.users.find(u => u.userName === receiverUserName);
     let userProfile = this.UserProfiles.find(u => u.user.userName === profileUserName);
-    let message = new Message(receiver, null, messageContent, sender, Number(messageCount), userProfile, new Date());
+    let message = new Message(receiver, null, messageContent, sender, Number(messageCount), userProfile, new Date(), parentMessageId);
 
     // Add message to localStorage
     localStorage.setItem("message" + message.id, JSON.stringify(message));
     console.log("Add message successfuly: " + localStorage.getItem("message" + message.id));
   }
 
-  addNotification(senderUserName: String, receiverUserName: String, profileUserName: String, notificationKind: NotificationKind): void 
-  {
+  addNotification(senderUserName: String, receiverUserName: String, profileUserName: String, notificationKind: NotificationKind): void {
     // Increase notificationCount
     let notificationCount = Number(localStorage.getItem("notificationCount")) + 1;
     localStorage.setItem("notificationCount", String(notificationCount));
-    
+
     let receiver = this.users.find(u => u.userName === receiverUserName);
     let sender = this.UserProfiles.find(u => u.user.userName === senderUserName);
     let userProfile = this.UserProfiles.find(u => u.user.userName === profileUserName);
@@ -62,11 +61,11 @@ export class BackendService {
       let msg = localStorage.getItem("message" + i);
       let message = JSON.parse(msg) as Message;
       if (message !== null && message.userProfile.user.userName === userProfileName) {
-         console.log("Matching message found adding to profile: " + message.content);
+        console.log("Matching message found adding to profile: " + message.content);
         messages.push(message);
       }
     }
-    console.log("Total messages: " + messages.length +  "retrieved for userProfilename: " + userProfileName);
+    console.log("Total messages: " + messages.length + "retrieved for userProfilename: " + userProfileName);
     return messages;
   }
 
@@ -80,12 +79,30 @@ export class BackendService {
       let msg = localStorage.getItem("notification" + i);
       let notification = JSON.parse(msg) as Notification;
       if (notification !== null && notification.recieveruser.userName === userName) {
-         console.log("Matching notification found adding to notification list: " + notification.id);
+        console.log("Matching notification found adding to notification list: " + notification.id);
         notifications.push(notification);
       }
     }
-    console.log("Total notifications: " + notifications.length +  "retrieved for userName: " + userName);
+    console.log("Total notifications: " + notifications.length + "retrieved for userName: " + userName);
     return notifications;
+  }
+
+  getSubMessagesForMessage(messageId: Number): Message[] {
+    console.log("getting sub messages for message Id: " + messageId);
+    let messages = [];
+    let messageCount = Number(localStorage.getItem("messageCount"));
+
+    // Go through messages to find matching sub message
+    for (let i = 1; i < messageCount + 1; i++) {
+      let msg = localStorage.getItem("message" + i);
+      let message = JSON.parse(msg) as Message;
+      if (message !== null && message.parentMessageId === messageId) {
+        console.log("Matching sub message found adding: " + message.content);
+        messages.push(message);
+      }
+    }
+    console.log("Total sub messages: " + messages.length + "retrieved for message Id: " + messageId);
+    return messages;
   }
 
   public getUsers(): User[] {
@@ -131,5 +148,5 @@ export class BackendService {
   ];
 
   Messages: Message[];
-  Notifications: Notification[]; 
+  Notifications: Notification[];
 }
