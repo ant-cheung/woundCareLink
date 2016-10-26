@@ -27,7 +27,8 @@ export class UserProfile {
     private form: ControlGroup;
     public profileMessages: Message[];
 
-    constructor(private navParams: NavParams, private backendService: BackendService, private authenticationService: AuthenticationService, public events: Events) {
+    constructor(private navParams: NavParams, private backendService: BackendService, private authenticationService: AuthenticationService,
+        public events: Events) {
         this.userName = navParams.get('userName');
         this.userImage = navParams.get('userImage'),
             //this.address = navParams.get('address');
@@ -37,11 +38,17 @@ export class UserProfile {
         // subscribe to replyToComment event
         // This is used for sending replies to messages on a user profile
         this.events.subscribe('user:replyToComment', (message) => {
-            let messageId = Number(message[0]);
+            let messageId = String(message[0]);
             let messageContent = String(message[1]);
             console.log("message " + message);
-            let messageToCommentOn = this.profileMessages.find(m => m.id === Number(messageId));
+            let messageToCommentOn = this.profileMessages.find(m => m.id === messageId);
             this.CreateMessage(messageContent, messageToCommentOn.receiverUser.userName, messageToCommentOn.id);
+        });
+
+        // Notified when new messages arrives via dropbox
+         this.events.subscribe('user:newMessages', () => {
+            console.log("New messages!");
+            this.profileMessages = this.backendService.getMessagesForUserProfile(this.userName);
         });
     };
 
@@ -62,7 +69,7 @@ export class UserProfile {
         this.CreateMessage(messageContent.value, recipients.value, null);
     }
 
-    CreateMessage(messageContent: String, recipientUserName: String, messageParentId: Number) {
+    CreateMessage(messageContent: String, recipientUserName: String, messageParentId: string) {
         // Add message
         this.backendService.addMessage(this.authenticationService.getCurrentUser().userName, recipientUserName, messageContent, this.userName, messageParentId);
 
@@ -72,5 +79,4 @@ export class UserProfile {
         // Update profile messages
         this.profileMessages = this.backendService.getMessagesForUserProfile(this.userName);
     }
-
 }

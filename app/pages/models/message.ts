@@ -8,8 +8,8 @@ export class Message {
     public receiverUserGroup: UserGroup,
     public content: String,
     public sender: User,
-    public id: Number,
+    public id: string,
     public userProfile: UserProfile,
     public dateCreated: Date,
-    public parentMessageId: Number) { }
+    public parentMessageId: string) { }
 }

@@ -9,10 +9,12 @@ import { SearchPage} from './pages/search/search.component';
 import { NotificationList} from './pages/notificationList/notificationList.component';
 import { User} from './pages/user/user.component';
 import {AuthenticationService} from './services/authentication.service';
+import {Dropbox} from './services/dropbox';
+import { HTTP_PROVIDERS } from '@angular/http';
 
 @Component({
   templateUrl: 'build/app.html',
-  providers: [BackendService,AuthenticationService]
+  providers: [BackendService,AuthenticationService, Dropbox, HTTP_PROVIDERS]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
@@ -52,4 +54,4 @@ export class MyApp {
     }
 }
 
-ionicBootstrap(MyApp);
+ionicBootstrap(MyApp, [HTTP_PROVIDERS]);

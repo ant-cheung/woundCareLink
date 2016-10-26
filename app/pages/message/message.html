@@ -20,7 +20,7 @@
         </ion-col>
         <ion-col center text-center>
             <ion-note>
-                11h ago
+                {{ message.dateCreated | date: 'MM/dd/yyyy HH:mm:ss' }}
             </ion-note>
         </ion-col>
     </ion-row>

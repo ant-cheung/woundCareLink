@@ -4,7 +4,7 @@ import {NotificationKind} from './notificationKind';
 
 export class Notification {
   constructor(
-    public id: Number,
+    public id: string,
     public recieveruser: User,
     public createDate: Date,
     public senderUser: UserProfile,

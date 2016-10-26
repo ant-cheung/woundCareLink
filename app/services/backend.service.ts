@@ -5,60 +5,69 @@ import {UserProfile} from '../pages/models/userProfile';
 import {Notification} from '../pages/models/notification';
 import {Message} from '../pages/models/message';
 import {NotificationKind} from '../pages/models/notificationKind';
-
-// var messages = [];
+import {Dropbox} from './dropbox';
+import {Observable} from 'rxjs/Rx';
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class BackendService {
 
-  //   deleteMessage(message: Message): void {
-  //     localStorage.removeItem("message" + message.id);
-  //   }
+  private msgGuidList: string[] = [];
+  private notificationGuidList: string[] = [];
 
-  constructor() {
-    // MessageCount and notificationCount are temprory here because localstorage functionality is limited: only stores key valuee  - not needed once database is hooked up.
-    localStorage.setItem("messageCount", String(0));
-    localStorage.setItem("notificationCount", String(0));
+  constructor(private dropbox: Dropbox, public events: Events) {
+    // Run syncMessagesWithDropbox() method on interval to sync new messages
+    Observable.interval(10000)
+      .map((x) => x + 1)
+      .subscribe((x) => {
+        this.syncMessagesWithDropbox();
+      });
   }
 
-  addMessage(senderUserName: String, receiverUserName: String, messageContent: String, profileUserName: String, parentMessageId: Number): void {
-    // Increase messageCount
-    let messageCount = Number(localStorage.getItem("messageCount")) + 1;
-    localStorage.setItem("messageCount", String(messageCount));
+  addMessage(senderUserName: String, receiverUserName: String, messageContent: String, profileUserName: String, parentMessageId: string): void {
 
+    // Add new Guid for message id
+    let messageId = Guid.newGuid();
+    this.msgGuidList.push(messageId);
     let sender = this.users.find(u => u.userName === senderUserName);
     let receiver = this.users.find(u => u.userName === receiverUserName);
     let userProfile = this.UserProfiles.find(u => u.user.userName === profileUserName);
-    let message = new Message(receiver, null, messageContent, sender, Number(messageCount), userProfile, new Date(), parentMessageId);
+    let message = new Message(receiver, null, messageContent, sender, messageId, userProfile, new Date(), parentMessageId);
 
     // Add message to localStorage
-    localStorage.setItem("message" + message.id, JSON.stringify(message));
-    console.log("Add message successfuly: " + localStorage.getItem("message" + message.id));
+    localStorage.setItem(message.id, JSON.stringify(message));
+    console.log("Add message successfuly: " + localStorage.getItem(message.id));
+
+    // Upload to dropbox
+    this.dropbox.uploadFile(message.id, JSON.stringify(message)).subscribe(data => {
+      console.log("result of upload file: " + JSON.stringify(data));
+    }, (err) => {
+      console.log("error in upload file: " + err);
+    });
   }
 
   addNotification(senderUserName: String, receiverUserName: String, profileUserName: String, notificationKind: NotificationKind): void {
-    // Increase notificationCount
-    let notificationCount = Number(localStorage.getItem("notificationCount")) + 1;
-    localStorage.setItem("notificationCount", String(notificationCount));
 
+    // Add new Guid for notification id
+    let notificationId = Guid.newGuid();
+    this.notificationGuidList.push(notificationId);
     let receiver = this.users.find(u => u.userName === receiverUserName);
     let sender = this.UserProfiles.find(u => u.user.userName === senderUserName);
     let userProfile = this.UserProfiles.find(u => u.user.userName === profileUserName);
-    let notification = new Notification(Number(notificationCount), receiver, new Date(), sender, userProfile, notificationKind);
+    let notification = new Notification(notificationId, receiver, new Date(), sender, userProfile, notificationKind);
 
     // Add notification to localStorage
-    localStorage.setItem("notification" + notification.id, JSON.stringify(notification));
-    console.log("Add notification successfuly: " + localStorage.getItem("notification" + notification.id));
+    localStorage.setItem(notification.id, JSON.stringify(notification));
+    console.log("Add notification successfuly: " + localStorage.getItem(notification.id));
   }
 
   getMessagesForUserProfile(userProfileName: String): Message[] {
     console.log("getting messages for userProfile name: " + userProfileName);
     let messages = [];
-    let messageCount = Number(localStorage.getItem("messageCount"));
 
     // Go through messages to find matching userProfile
-    for (let i = 1; i < messageCount + 1; i++) {
-      let msg = localStorage.getItem("message" + i);
+    for (let i = 0; i < this.msgGuidList.length; i++) {
+      let msg = localStorage.getItem(this.msgGuidList[i]);
       let message = JSON.parse(msg) as Message;
       if (message !== null && message.userProfile.user.userName === userProfileName) {
         console.log("Matching message found adding to profile: " + message.content);
@@ -72,11 +81,10 @@ export class BackendService {
   getNotificationsForUser(userName: String): Notification[] {
     console.log("getting notifications for userName: " + userName);
     let notifications = [];
-    let notificationCount = Number(localStorage.getItem("notificationCount"));
 
     // Go through notifications to find matching
-    for (let i = 1; i < notificationCount + 1; i++) {
-      let msg = localStorage.getItem("notification" + i);
+    for (let i = 0; i < this.notificationGuidList.length; i++) {
+      let msg = localStorage.getItem(this.notificationGuidList[i]);
       let notification = JSON.parse(msg) as Notification;
       if (notification !== null && notification.recieveruser.userName === userName) {
         console.log("Matching notification found adding to notification list: " + notification.id);
@@ -87,14 +95,13 @@ export class BackendService {
     return notifications;
   }
 
-  getSubMessagesForMessage(messageId: Number): Message[] {
+  getSubMessagesForMessage(messageId: String): Message[] {
     console.log("getting sub messages for message Id: " + messageId);
     let messages = [];
-    let messageCount = Number(localStorage.getItem("messageCount"));
 
     // Go through messages to find matching sub message
-    for (let i = 1; i < messageCount + 1; i++) {
-      let msg = localStorage.getItem("message" + i);
+    for (let i = 0; i < this.msgGuidList.length; i++) {
+      let msg = localStorage.getItem(this.msgGuidList[i]);
       let message = JSON.parse(msg) as Message;
       if (message !== null && message.parentMessageId === messageId) {
         console.log("Matching sub message found adding: " + message.content);
@@ -117,6 +124,43 @@ export class BackendService {
 
   public getUserProfiles(): UserProfile[] {
     return this.UserProfiles;
+  }
+
+  syncMessagesWithDropbox() {
+    // First get all message files in the dropbox folder
+    this.dropbox.getFolders("/WoundCareAppData/Messages/").subscribe(data => {
+      let folderList: any[];
+      folderList = data.entries;
+      console.log("result of get folders: " + JSON.stringify(folderList));
+
+      // Only download those that are not in local storage (or msgGuidList)
+      let toDownloadList: string[] = [];
+      for (let file of folderList) {
+        let fileName = file.name as string;
+        if (this.msgGuidList.indexOf(fileName.slice(0, fileName.length - 4)) === -1) {
+          console.log("New message file to download!: " + fileName);
+          toDownloadList.push(fileName);
+        }
+      }
+
+      // Perform download on each file in toDownloadList
+      toDownloadList.forEach(f => this.dropbox.downloadFile(f).subscribe(data => {
+        console.log("message:" + JSON.stringify(data));
+        let message = data as Message;
+
+        // Add downloaded message to localStorage and msgGuidList
+        this.msgGuidList.push(message.id);
+        localStorage.setItem(message.id, JSON.stringify(message));
+        console.log("Add message successfuly: " + localStorage.getItem(message.id));
+
+        // Trigger event for newMessages (userProfile is listening)
+        this.events.publish('user:newMessages');
+      }, (err) => {
+        console.log(err);
+      }));
+    }, (err) => {
+      console.log("error in get folders: " + err);
+    });
   }
 
   users = [
@@ -146,7 +190,14 @@ export class BackendService {
     new UserProfile(this.users.find(u => u.id === 10), 'img/doctor.png'),
     new UserProfile(this.users.find(u => u.id === 11), 'img/doctor.png'),
   ];
+}
 
-  Messages: Message[];
-  Notifications: Notification[];
+// This class creates unique Guids used for message and notification Ids
+class Guid {
+  static newGuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
 }
