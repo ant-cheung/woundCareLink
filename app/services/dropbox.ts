@@ -29,12 +29,20 @@ export class Dropbox {
 
   }
 
-  uploadFile(fileName: string, content: string) {
+  uploadFile(fileName: string, content: string, isMessage: boolean) {
+
+    let filePath: string;
+    if (isMessage) {
+      filePath = "/WoundCareAppData/Messages/";
+    }
+    else {
+      filePath = "/WoundCareAppData/Notifications/";
+    }
 
     let headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.accessToken);
     headers.append('Content-Type', 'application/octet-stream');
-    headers.append('Dropbox-API-Arg', "{\"path\": \"/WoundCareAppData/Messages/" + fileName + ".txt\",\"mode\": \"add\",\"autorename\": true,\"mute\": false}");
+    headers.append('Dropbox-API-Arg', "{\"path\": \"" + filePath + fileName + ".txt\",\"mode\": \"add\",\"autorename\": true,\"mute\": false}");
 
     console.log("Uploading File: " + fileName + content);
 
@@ -42,11 +50,11 @@ export class Dropbox {
       .map(res => res.json());
   }
 
-  downloadFile(fileName: string) {
+  downloadFile(filePath: string) {
 
     let headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.accessToken);
-    headers.append('Dropbox-API-Arg', "{\"path\": \"/WoundCareAppData/Messages/" + fileName + "\"}");
+    headers.append('Dropbox-API-Arg', "{\"path\": \"" + filePath + "\"}");
 
     console.log("download file header: " + JSON.stringify(headers));
 
@@ -64,7 +72,15 @@ export class Dropbox {
       .map(res => res.json());
   }
 
-  getFolders(path) {
+  getFolders(isMessage: boolean) {
+
+    let path: string;
+    if (isMessage) {
+      path = "/WoundCareAppData/Messages/";
+    }
+    else {
+      path = "/WoundCareAppData/Notifications/";
+    }
 
     let headers = new Headers();
 

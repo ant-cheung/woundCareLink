@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { ionicBootstrap, Platform, MenuController, Nav, Events } from 'ionic-angular';
+import { ionicBootstrap, Platform, MenuController, Nav, Events, AlertController} from 'ionic-angular';
 import { StatusBar } from 'ionic-native';
 import { HomePage } from './pages/home/home.component';
 import {BackendService} from './services/backend.service';
@@ -14,15 +14,15 @@ import { HTTP_PROVIDERS } from '@angular/http';
 
 @Component({
   templateUrl: 'build/app.html',
-  providers: [BackendService,AuthenticationService, Dropbox, HTTP_PROVIDERS]
+  providers: [BackendService, AuthenticationService, Dropbox, HTTP_PROVIDERS]
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
   rootPage: any = HomePage;
-  pages: Array<{title: string, component: any}>;
+  pages: Array<{ title: string, component: any }>;
   currentUser: User;
 
-  constructor(public platform: Platform,public menu: MenuController, public events: Events, private authService: AuthenticationService ) {
+  constructor(public platform: Platform, public menu: MenuController, public events: Events, private authService: AuthenticationService, public alertCtrl: AlertController, private backendService: BackendService) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -44,6 +44,18 @@ export class MyApp {
     this.events.subscribe('user:signin', () => {
       this.currentUser = this.authService.getCurrentUser();
     });
+
+    // subscribe to newNotifications event
+    this.events.subscribe('user:newNotifications', () => {
+      // Get notifications for user and show Alert if there are any
+      if (this.currentUser !== null) {
+        let notifications = this.backendService.getNotificationsForUser(this.currentUser.userName);
+        if (notifications.length > 0) {
+          this.showNotificationAlert();
+        }
+      }
+    });
+
   }
 
   openPage(page) {
@@ -51,7 +63,30 @@ export class MyApp {
     this.menu.close();
     // navigate to the new page if it is not the current page
     this.nav.setRoot(page.component, { title: page.title });
-    }
+  }
+
+  showNotificationAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'New Notifications!',
+      subTitle: 'You have new unread messages!',
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Open',
+          handler: data => {
+            console.log('Open Notification clicked');
+            this.nav.setRoot(NotificationList);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 }
 
 ionicBootstrap(MyApp, [HTTP_PROVIDERS]);

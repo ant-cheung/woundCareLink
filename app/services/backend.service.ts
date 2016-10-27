@@ -16,11 +16,12 @@ export class BackendService {
   private notificationGuidList: string[] = [];
 
   constructor(private dropbox: Dropbox, public events: Events) {
-    // Run syncMessagesWithDropbox() method on interval to sync new messages
-    Observable.interval(10000)
+    // Run syncFilesWithDropbox() method on interval to sync new files
+    Observable.interval(3000)
       .map((x) => x + 1)
       .subscribe((x) => {
-        this.syncMessagesWithDropbox();
+        this.syncFilesWithDropbox(true, this.msgGuidList);
+        this.syncFilesWithDropbox(false, this.notificationGuidList);
       });
   }
 
@@ -39,10 +40,10 @@ export class BackendService {
     console.log("Add message successfuly: " + localStorage.getItem(message.id));
 
     // Upload to dropbox
-    this.dropbox.uploadFile(message.id, JSON.stringify(message)).subscribe(data => {
-      console.log("result of upload file: " + JSON.stringify(data));
+    this.dropbox.uploadFile(message.id, JSON.stringify(message), true).subscribe(data => {
+      console.log("result of upload message file: " + JSON.stringify(data));
     }, (err) => {
-      console.log("error in upload file: " + err);
+      console.log("error in upload message file: " + err);
     });
   }
 
@@ -59,6 +60,13 @@ export class BackendService {
     // Add notification to localStorage
     localStorage.setItem(notification.id, JSON.stringify(notification));
     console.log("Add notification successfuly: " + localStorage.getItem(notification.id));
+
+    // Upload to dropbox
+    this.dropbox.uploadFile(notification.id, JSON.stringify(notification), false).subscribe(data => {
+      console.log("result of upload notification file: " + JSON.stringify(data));
+    }, (err) => {
+      console.log("error in upload notification file: " + err);
+    });
   }
 
   getMessagesForUserProfile(userProfileName: String): Message[] {
@@ -126,35 +134,57 @@ export class BackendService {
     return this.UserProfiles;
   }
 
-  syncMessagesWithDropbox() {
-    // First get all message files in the dropbox folder
-    this.dropbox.getFolders("/WoundCareAppData/Messages/").subscribe(data => {
+  syncFilesWithDropbox(isMessage: boolean, guidList: string[]) {
+    if (isMessage) {
+      console.log("synching messages with dropbox");
+    }
+    else {
+      console.log("synching notifications with dropbox");
+    }
+
+    // First get all files in the dropbox folder
+    this.dropbox.getFolders(isMessage).subscribe(data => {
       let folderList: any[];
       folderList = data.entries;
       console.log("result of get folders: " + JSON.stringify(folderList));
 
-      // Only download those that are not in local storage (or msgGuidList)
+      // Only download those that are not in local storage (or GuidList)
       let toDownloadList: string[] = [];
       for (let file of folderList) {
         let fileName = file.name as string;
-        if (this.msgGuidList.indexOf(fileName.slice(0, fileName.length - 4)) === -1) {
-          console.log("New message file to download!: " + fileName);
-          toDownloadList.push(fileName);
+        if (guidList.indexOf(fileName.slice(0, fileName.length - 4)) === -1) {
+          console.log("New file to download!: " + fileName);
+          toDownloadList.push(file.path_display);
         }
       }
 
+      let totalDownload = toDownloadList.length - 1;
       // Perform download on each file in toDownloadList
       toDownloadList.forEach(f => this.dropbox.downloadFile(f).subscribe(data => {
-        console.log("message:" + JSON.stringify(data));
-        let message = data as Message;
+        console.log("file:" + JSON.stringify(data));
 
-        // Add downloaded message to localStorage and msgGuidList
-        this.msgGuidList.push(message.id);
-        localStorage.setItem(message.id, JSON.stringify(message));
-        console.log("Add message successfuly: " + localStorage.getItem(message.id));
+        let file;
+        if (isMessage) {
+          file = data as Message;
+        }
+        else {
+          file = data as Notification;
+        }
 
-        // Trigger event for newMessages (userProfile is listening)
-        this.events.publish('user:newMessages');
+        // Add downloaded file to localStorage and GuidList
+        guidList.push(file.id);
+        localStorage.setItem(file.id, JSON.stringify(file));
+        console.log("Add file successfuly: " + localStorage.getItem(file.id));
+
+        if (totalDownload-- === 0) {
+          // Trigger event for new file
+          if (isMessage) {
+            this.events.publish('user:newMessages');
+          }
+          else {
+            this.events.publish('user:newNotifications');
+          }
+        }
       }, (err) => {
         console.log(err);
       }));
