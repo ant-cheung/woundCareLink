@@ -31,24 +31,26 @@
     <button id="page1-button16" class="button button-dark  button-block">Logs</button>
   </div>
   <div class="item item-body" id="page1-list-item-container2">
+   
     <form [formGroup]="form" class="list" (ngSubmit)="sendMessage(form.value)">
-      <label for="recipients" class="item item-select" id="page1-select2">
-            <span class="input-label">To:</span>
-            <select name="recipients" id="recipients"
+      <ion-item>
+      <ion-label>To:</ion-label>
+            <ion-select multiple="true" name="recipients" id="recipients"
                 formControlName="recipients">
-              <option *ngFor="let user of allUsers">
+              <ion-option *ngFor="let user of allUsers">
                 {{ user.userName }}
-              </option>
-            </select>
-        </label>
+              </ion-option>
+            </ion-select>
+            </ion-item>
       <label for="messageContent" class="item item-input item-stacked-label" id="page1-input5">
                     <input type="text" placeholder="Write message" style="display: block;
             float: left; padding:5px;" name="messageContent" id="messageContent" required
                 formControlName="messageContent">
-                    <button class="button-dark" type="submit" [disabled]="!form.valid" style=" display: block;
+                    <button class="button-dark" type="submit" style=" display: block;
             float: right;">Send</button>
         </label>
     </form>
+
   </div>
   <div>
     <label class="item" *ngFor="let message of profileMessages | filterProfileMessages">

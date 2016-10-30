@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {User} from '../pages/user/user.component';
-import {UserGroup} from '../pages/userGroup/userGroup.component';
-import {UserProfile} from '../pages/models/userProfile';
-import {Notification} from '../pages/models/notification';
-import {Message} from '../pages/models/message';
-import {NotificationKind} from '../pages/models/notificationKind';
-import {Dropbox} from './dropbox';
-import {Observable} from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
+import { User } from '../pages/user/user.component';
+import { UserGroup } from '../pages/userGroup/userGroup.component';
+import { UserProfile } from '../pages/models/userProfile';
+import { Notification } from '../pages/models/notification';
+import { Message } from '../pages/models/message';
+import { NotificationKind } from '../pages/models/notificationKind';
+import { Dropbox } from './dropbox';
+import { Observable } from 'rxjs/Rx';
 import { Events } from 'ionic-angular';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class BackendService {
 
   constructor(private dropbox: Dropbox, public events: Events) {
     // Run syncFilesWithDropbox() method on interval to sync new files
-    Observable.interval(3000)
+    Observable.interval(5000)
       .map((x) => x + 1)
       .subscribe((x) => {
         this.syncFilesWithDropbox(true, this.msgGuidList);
@@ -25,15 +25,21 @@ export class BackendService {
       });
   }
 
-  addMessage(senderUserName: String, receiverUserName: String, messageContent: String, profileUserName: String, parentMessageId: string): void {
+  addMessage(senderUserName: String, receiverUserName: String[], messageContent: String, profileUserName: String, parentMessageId: string): void {
 
     // Add new Guid for message id
     let messageId = Guid.newGuid();
     this.msgGuidList.push(messageId);
     let sender = this.users.find(u => u.userName === senderUserName);
-    let receiver = this.users.find(u => u.userName === receiverUserName);
+
+    let recieverUsers: User[] = [];
+    for (let userName of receiverUserName) {
+      let receiver = this.users.find(u => u.userName === userName);
+      recieverUsers.push(receiver);
+    }
+
     let userProfile = this.UserProfiles.find(u => u.user.userName === profileUserName);
-    let message = new Message(receiver, null, messageContent, sender, messageId, userProfile, new Date(), parentMessageId);
+    let message = new Message(recieverUsers, null, messageContent, sender, messageId, userProfile, new Date(), parentMessageId);
 
     // Add message to localStorage
     localStorage.setItem(message.id, JSON.stringify(message));
@@ -47,15 +53,21 @@ export class BackendService {
     });
   }
 
-  addNotification(senderUserName: String, receiverUserName: String, profileUserName: String, notificationKind: NotificationKind): void {
+  addNotification(senderUserName: String, receiverUserName: String[], profileUserName: String, notificationKind: NotificationKind): void {
 
     // Add new Guid for notification id
     let notificationId = Guid.newGuid();
     this.notificationGuidList.push(notificationId);
-    let receiver = this.users.find(u => u.userName === receiverUserName);
+    
+    let recieverUsers: User[] = [];
+    for (let userName of receiverUserName) {
+      let receiver = this.users.find(u => u.userName === userName);
+      recieverUsers.push(receiver);
+    }
+
     let sender = this.UserProfiles.find(u => u.user.userName === senderUserName);
     let userProfile = this.UserProfiles.find(u => u.user.userName === profileUserName);
-    let notification = new Notification(notificationId, receiver, new Date(), sender, userProfile, notificationKind);
+    let notification = new Notification(notificationId, recieverUsers, new Date(), sender, userProfile, notificationKind);
 
     // Add notification to localStorage
     localStorage.setItem(notification.id, JSON.stringify(notification));
@@ -77,7 +89,7 @@ export class BackendService {
     for (let i = 0; i < this.msgGuidList.length; i++) {
       let msg = localStorage.getItem(this.msgGuidList[i]);
       let message = JSON.parse(msg) as Message;
-      if (message !== null && message.userProfile.user.userName === userProfileName) {
+      if (message !== undefined && message.userProfile.user.userName === userProfileName) {
         console.log("Matching message found adding to profile: " + message.content);
         messages.push(message);
       }
@@ -94,7 +106,7 @@ export class BackendService {
     for (let i = 0; i < this.notificationGuidList.length; i++) {
       let msg = localStorage.getItem(this.notificationGuidList[i]);
       let notification = JSON.parse(msg) as Notification;
-      if (notification !== null && notification.recieveruser.userName === userName) {
+      if (notification !== undefined && notification.recieveruser !== undefined && notification.recieveruser.find(u => u.userName === userName)) {
         console.log("Matching notification found adding to notification list: " + notification.id);
         notifications.push(notification);
       }
@@ -111,7 +123,7 @@ export class BackendService {
     for (let i = 0; i < this.msgGuidList.length; i++) {
       let msg = localStorage.getItem(this.msgGuidList[i]);
       let message = JSON.parse(msg) as Message;
-      if (message !== null && message.parentMessageId === messageId) {
+      if (message !== undefined && message.parentMessageId === messageId) {
         console.log("Matching sub message found adding: " + message.content);
         messages.push(message);
       }
@@ -177,6 +189,7 @@ export class BackendService {
         console.log("Add file successfuly: " + localStorage.getItem(file.id));
 
         if (totalDownload-- === 0) {
+          console.log("All files downloaded successfuly");
           // Trigger event for new file
           if (isMessage) {
             this.events.publish('user:newMessages');

@@ -38,6 +38,6 @@ export class SearchPage {
 
   showUserProfilePage(user: User)
   {
-      this.navCtrl.push(UserProfile, { "userName": user.userName });
+      this.navCtrl.setRoot(UserProfile, { "userName": user.userName });
   }
 }

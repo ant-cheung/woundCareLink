@@ -4,7 +4,7 @@ import {UserProfile} from '../models/userProfile';
 
 export class Message {
   constructor(
-    public receiverUser: User,
+    public receiverUser: User[],
     public receiverUserGroup: UserGroup,
     public content: String,
     public sender: User,
