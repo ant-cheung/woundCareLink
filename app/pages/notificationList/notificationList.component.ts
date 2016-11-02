@@ -24,6 +24,6 @@ export class NotificationList {
 
   notificationClicked(notification: Notification)
   {
-      this.navCtrl.push(UserProfile, { "userName": notification.userProfile.user.userName });
+      this.navCtrl.setRoot(UserProfile, { "userName": notification.userProfile.user.userName });
   }
 }

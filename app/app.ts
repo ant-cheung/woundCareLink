@@ -21,6 +21,7 @@ export class MyApp {
   rootPage: any = HomePage;
   pages: Array<{ title: string, component: any }>;
   currentUser: User;
+  alertIsShown: boolean = false;
 
   constructor(public platform: Platform, public menu: MenuController, public events: Events, private authService: AuthenticationService, public alertCtrl: AlertController, private backendService: BackendService) {
     platform.ready().then(() => {
@@ -47,11 +48,13 @@ export class MyApp {
 
     // subscribe to newNotifications event
     this.events.subscribe('user:newNotifications', () => {
-      // Get notifications for user and show Alert if there are any
-      if (this.currentUser !== null) {
-        let notifications = this.backendService.getNotificationsForUser(this.currentUser.userName);
-        if (notifications.length > 0) {
-          this.showNotificationAlert();
+      if (!this.alertIsShown) {
+        // Get notifications for user and show Alert if there are any
+        if (this.currentUser !== undefined) {
+          let notifications = this.backendService.getNotificationsForUser(this.currentUser.userName);
+          if (notifications.length > 0) {
+            this.showNotificationAlert();
+          }
         }
       }
     });
@@ -73,19 +76,26 @@ export class MyApp {
         {
           text: 'Cancel',
           handler: data => {
-            console.log('Cancel clicked');
+            this.handleNotificationAlertSubmit(false);
           }
         },
         {
           text: 'Open',
           handler: data => {
-            console.log('Open Notification clicked');
-            this.nav.setRoot(NotificationList);
+            this.handleNotificationAlertSubmit(true);
           }
         }
       ]
     });
     alert.present();
+    this.alertIsShown = true;
+  }
+
+  handleNotificationAlertSubmit(ShowNotificationList: boolean) {
+    if (ShowNotificationList) {
+      this.nav.setRoot(NotificationList);
+    }
+    this.alertIsShown = false;
   }
 }
 

@@ -17,13 +17,19 @@ export class SendMessageComponent {
     constructor(public events: Events) { }
 
     ngOnInit() {
+        this.createForm();
+    }
+
+    createForm() {
         this.form = new ControlGroup({
-            messageContent: new Control('')
+            messageContent: new Control('', Validators.required)
         });
     }
 
     sendMessage(newMessage: any) {
         let messageContent = this.form.controls['messageContent'];
         this.events.publish('user:replyToComment', this.message.id, messageContent.value);
+        // Reset form
+      //  this.createForm();
     }
 }
