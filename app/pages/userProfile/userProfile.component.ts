@@ -117,8 +117,16 @@ export class UserProfile {
 
         let recieverUsers: string[] = [];
         for (let user of messageToCommentOn.receiverUser) {
-            recieverUsers.push(user.userName);
+
+            // Do not include current user in receiver users
+            if (user.userName !== this.authenticationService.getCurrentUser().userName)
+            {
+                recieverUsers.push(user.userName);
+            }
         }
+
+        // Add the sender of the message to comment on
+        recieverUsers.push(messageToCommentOn.sender.userName);
 
         this.CreateMessage(messageContent, recieverUsers, messageToCommentOn.id);
     }
