@@ -10,6 +10,7 @@ import { NotificationList} from './pages/notificationList/notificationList.compo
 import { User} from './pages/user/user.component';
 import {AuthenticationService} from './services/authentication.service';
 import {Dropbox} from './services/dropbox';
+import { UserProfile } from './pages/models/userProfile';
 import { HTTP_PROVIDERS } from '@angular/http';
 
 @Component({
@@ -97,6 +98,16 @@ export class MyApp {
     }
     this.alertIsShown = false;
   }
+
+    showUserProfilePage(user: User)
+  {
+    // close the menu when clicking a link from the menu
+    this.menu.close();
+      // Looks like .push is not working great changed to .setRoot - invesitage this...
+      this.nav.setRoot(UserProfile, { "userName": user.userName, "userImage": user.userprofileimage });
+  }
 }
+
+
 
 ionicBootstrap(MyApp, [HTTP_PROVIDERS]);

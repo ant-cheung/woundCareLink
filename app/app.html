@@ -1,14 +1,14 @@
 <ion-menu [content]="content"> 
 
   <ion-toolbar>
-    <ion-list id="menu-list">
-      <ion-label class="padding">
+    <ion-list id="menu-list" class="row row-wrap" style="margin:5px 0px 0px 5px;" (click)="showUserProfilePage(currentUser)">
         <ion-avatar>
-            <img src="img/k7LBHDo4Rs23aIhVpLhF_Physiciansicon.png" class="padding"> 
-           <div *ngIf="currentUser"> {{ currentUser.userName }} </div> <br/>
-            oz.donald@woundcare.com
-          </ion-avatar>
-        </ion-label>
+            <img *ngIf="currentUser" src="{{ currentUser.userprofileimage }}"> 
+        </ion-avatar>&nbsp;
+        <label>
+           <h3 *ngIf="currentUser"> {{ currentUser.userName }}</h3>
+            <p>oz.donald@woundcare.com</p>
+          </label>
     </ion-list>
   </ion-toolbar>
 

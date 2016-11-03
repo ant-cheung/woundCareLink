@@ -22,6 +22,7 @@ import { FilterProfileMessagesPipe } from '../../pipes/filterProfileMessages';
 export class UserProfile {
     public userName: String;
     public userImage: String;
+    public loggedInUser: User;
     public address: String;
     public allUsers: User[] = [];
     private form: ControlGroup;
@@ -35,6 +36,7 @@ export class UserProfile {
         public events: Events, private builder: FormBuilder) {
         this.userName = navParams.get('userName');
         this.userImage = navParams.get('userImage'),
+        this.loggedInUser = this.authenticationService.getCurrentUser();
             //this.address = navParams.get('address');
             this.allUsers = this.backendService.getUsers();
         this.profileMessages = this.backendService.getMessagesForUserProfile(this.userName);

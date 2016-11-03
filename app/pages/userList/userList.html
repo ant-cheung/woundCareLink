@@ -7,8 +7,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding="false" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;"
-  class="manual-remove-top-padding has-header">
+<ion-content padding="true" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;"
+  >
   <ion-list id="page11-list13">
     <ion-item class="item-thumbnail-left item-icon-right" id="page11-list-item46" ui-sref="menu.search">
       <img src="{{imageSource}}">
@@ -18,12 +18,21 @@
     </ion-item>
   </ion-list>
   <div class="spacer" style="width: 320px; height: 32px;"></div>
-  <ion-list id="page11-list9">
-    <ion-item class="item-icon-left item-icon-right dark row-no-padding" id="page11-list-item35" ui-sref="menu.page1" *ngFor="let user of users"
+
+  <ion-list id="page11-list9" style="margin:5px 0px 0px 5px;">
+    <ion-item class="item-icon-right dark row-no-padding row row-wrap" *ngFor="let user of users"
       (click)="showUserProfilePage(user)">
-    <ion-icon class="icon person" name="person"></ion-icon>{{ user.userName }} - RN#{{user.id}}<br>
-      <span class="item-note">Vancouver Coastal Health</span>
+      <label class="row row-wrap">
+        <ion-avatar>
+            <img src="{{ user.userprofileimage }}"> 
+        </ion-avatar>&nbsp;&nbsp;
+        <span><h3>{{ user.userName }} - RN#000{{user.id}}</h3><p>Vancouver Coastal Health</p> </span>        
+      </label>
       <ion-icon class="icon arrow-forward" name="arrow-forward"></ion-icon>
     </ion-item>
   </ion-list>
+
+   <div class="spacer" style="width: 320px; height: 32px;"></div>
+
+
 </ion-content>

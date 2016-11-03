@@ -3,18 +3,17 @@
     <button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Notifications</ion-title>
+    <ion-subtitle>Notifications</ion-subtitle>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding="false" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;"
-    class=" manual-remove-top-padding has-header">
-    <ion-card *ngFor="let notification of notifications" (click)="notificationClicked(notification)" >
+<ion-content padding="true" style="background: url(img/eTKrFvEYRCWNEQcrbbbw_login-1.png) no-repeat center;background-size:cover;">
+    <ion-card class="item item-body" *ngFor="let notification of notifications" (click)="notificationClicked(notification)" >
         <ion-card-header>
-            {{ notification.createDate }} :
+            <h3>{{ notification.createDate | date:'medium' }}:</h3>
         </ion-card-header>
         <ion-card-content>
-            receieved message from {{ notification.senderUser.user.userName }} for {{ notification.userProfile.user.userName }}
+            <p>Message from {{ notification.senderUser.user.userName }} for {{ notification.userProfile.user.userName }}</p>
         </ion-card-content>
     </ion-card>
 </ion-content>

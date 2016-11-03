@@ -28,6 +28,16 @@
   padding-bottom: 0;  }
 }
 
+.col-no-padding {
+  padding-left: 0;
+  padding-right: 0;
+  
+
+  > .col {
+  padding-left: 0;
+  padding-right: 0;  }
+}
+
 .row + .row {
   margin-top: ($grid-padding-width / 2) * -1;
   padding-top: 0;
