@@ -42,7 +42,7 @@ export class Dropbox {
     let headers = new Headers();
     headers.append('Authorization', 'Bearer ' + this.accessToken);
     headers.append('Content-Type', 'application/octet-stream');
-    headers.append('Dropbox-API-Arg', "{\"path\": \"" + filePath + fileName + ".txt\",\"mode\": \"add\",\"autorename\": true,\"mute\": false}");
+    headers.append('Dropbox-API-Arg', "{\"path\": \"" + filePath + fileName + ".txt\",\"mode\": \"overwrite\",\"autorename\": true,\"mute\": false}");
 
     console.log("Uploading File: " + fileName + content);
 

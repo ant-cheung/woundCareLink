@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Message} from '../models/message';
 import {SendMessageComponent} from '../message/sendMessage.component';
 import {BackendService} from '../../services/backend.service';
+import { Events } from 'ionic-angular';
 
 @Component(
     {
@@ -19,7 +20,7 @@ export class MessageComponent {
     public messageAge;
 
 
-    constructor(private backendService: BackendService) {
+    constructor(private backendService: BackendService, public events: Events) {
     }
 
     ngOnInit() {
@@ -52,5 +53,11 @@ export class MessageComponent {
         else {
             this.showComments = true;
         }
+    }
+
+    likeMessage()
+    {
+        this.message.likesCount++;
+        this.events.publish('user:updateMessage', this.message);
     }
 }

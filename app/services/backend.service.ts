@@ -53,6 +53,21 @@ export class BackendService {
     });
   }
 
+  updateMessage(message: Message): void
+  {
+    //update message on localStorage
+    localStorage.setItem(message.id, JSON.stringify(message));
+    console.log("Update message successfuly: " + localStorage.getItem(message.id));
+
+    // Upload to dropbox
+    console.log("messageIdThere: " + message.id);
+    this.dropbox.uploadFile(message.id, JSON.stringify(message), true).subscribe(data => {
+      console.log("result of upload message file: " + JSON.stringify(data));
+    }, (err) => {
+      console.log("error in upload message file: " + err);
+    });
+  }
+
   addNotification(senderUserName: String, receiverUserName: String[], profileUserName: String, notificationKind: NotificationKind): void {
 
     // Add new Guid for notification id
@@ -94,6 +109,10 @@ export class BackendService {
         messages.push(message);
       }
     }
+
+    // Sort by likes
+   // messages = messages.sort((x,y): number => { if (x.likesCount < y.likesCount) return 1;} );
+
     console.log("Total messages: " + messages.length + "retrieved for userProfilename: " + userProfileName);
     return messages;
   }

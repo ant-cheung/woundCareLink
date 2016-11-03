@@ -20,11 +20,11 @@
         <ion-col>
             <button item primary clear small (click)="openComments()">
                 <div>{{ subMessages.length }} Comments - </div>
-                <div>12 Likes</div>
+                <div>{{ message.likesCount }} Likes</div>
             </button>
         </ion-col>
         <ion-col>
-            <button primary clear small>
+            <button primary clear small (click)="likeMessage()">
                 <ion-icon name="thumbs-up">Like</ion-icon>
             </button>
             <button primary clear small (click)="openMessage()">

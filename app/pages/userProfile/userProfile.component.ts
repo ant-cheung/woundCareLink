@@ -31,14 +31,15 @@ export class UserProfile {
     public messageContent;
     private replytoCommentActionFunction: (message: any) => void;
     private newMessagesActionFunction: () => void;
+    private updateMessageActionFunction: (message: any) => void;
 
     constructor(private navParams: NavParams, private backendService: BackendService, private authenticationService: AuthenticationService,
         public events: Events, private builder: FormBuilder) {
         this.userName = navParams.get('userName');
         this.userImage = navParams.get('userImage'),
         this.loggedInUser = this.authenticationService.getCurrentUser();
-            //this.address = navParams.get('address');
-            this.allUsers = this.backendService.getUsers();
+        //this.address = navParams.get('address');
+        this.allUsers = this.backendService.getUsers();
         this.profileMessages = this.backendService.getMessagesForUserProfile(this.userName);
 
 
@@ -54,6 +55,11 @@ export class UserProfile {
             this.newMessagesAction();
         };
         this.events.subscribe('user:newMessages', this.newMessagesActionFunction);
+
+        this.updateMessageActionFunction = (message) => {
+            this.updateMessage(message);
+        };
+        this.events.subscribe('user:updateMessage', this.updateMessageActionFunction);
     };
 
     ngOnInit() {
@@ -71,6 +77,11 @@ export class UserProfile {
         {
           console.log("Unsubscribed newMessagesActionFunction: " + this.events.unsubscribe('user:newMessages', this.newMessagesActionFunction));
             this.newMessagesActionFunction = undefined;
+        }
+
+         if (this.updateMessageActionFunction) {
+            console.log("Unsubscribed updateMessageActionFunction: " + this.events.unsubscribe('user:updateMessage', this.updateMessageActionFunction));
+            this.updateMessageActionFunction = undefined;
         }
     }
 
@@ -110,12 +121,15 @@ export class UserProfile {
         console.log("profileMessagesAHF: " + JSON.stringify(this.profileMessages));
     }
 
+    updateMessage(message: any)
+    {
+        this.backendService.updateMessage(message[0] as Message);
+    }
+
     replyToCommentAction(message) {
         let messageId = String(message[0]);
         let messageContent = String(message[1]);
-        console.log("message " + message);
         let messageToCommentOn = this.profileMessages.find(m => m.id === messageId);
-        console.log("AHF: " + JSON.stringify(this.profileMessages) + "ADDD: " + messageId);
 
         let recieverUsers: string[] = [];
         for (let user of messageToCommentOn.receiverUser) {

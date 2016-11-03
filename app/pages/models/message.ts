@@ -11,5 +11,6 @@ export class Message {
     public id: string,
     public userProfile: UserProfile,
     public dateCreated: Date,
-    public parentMessageId: string) { }
+    public parentMessageId: string,
+    public likesCount: number = 0) { }
 }
