@@ -1,9 +1,13 @@
 <form [formGroup]="form" class="list" (ngSubmit)="sendMessage(form.value)">
-    <label for="messageContent" class="item item-input item-stacked-label" id="page1-input5">
-                    <input type="text" placeholder="Write message" style="display: block;
-            float: left; padding:5px;" name="messageContent" id="messageContent" required
-                formControlName="messageContent">
-                    <button class="button-dark" type="submit" [disabled]="!form.valid" style=" display: block;
-            float: right;">Send</button>
-        </label>
+          <label for="messageContent" class="item item-input" id="page1-input5">
+            <!-- <ion-icon class="icon person" name="person">&nbsp;</ion-icon>   loggedIn user image avatar-leia.png-->
+            <ion-avatar>
+                <img src="img/avatar-leia.png">
+            </ion-avatar>
+            &nbsp;<ion-textarea placeholder="Share a wound care update, image, or tip" style="display: block;
+            float: left;" name="messageContent" id="messageContent" required formControlName="messageContent"></ion-textarea>
+      </label>
+        <div>
+          <button class="button-dark" type="submit" style=" display: block; float: right;">Share</button> 
+        </div>
 </form>

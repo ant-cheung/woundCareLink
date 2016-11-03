@@ -1,29 +1,39 @@
-<ion-card>
+<ion-card style="margin: 0px 0px 10px 0px; width:100%; padding:0px 0px 0px 0px; display: float;">
+
     <ion-card-header>
-        From: {{ message.sender.userName }}
+        <label class="row row-wrap">
+            <ion-avatar >
+                <img src="{{ message.sender.userprofileimage }}">
+            </ion-avatar>&nbsp;&nbsp;
+            <label>
+                <h2>{{ message.sender.userName }}</h2>
+                <p>RN# - 000{{ message.sender.id }}</p>
+                <p>{{ message.dateCreated | date:'medium' }}</p>
+            </label>
+        </label>
+
     </ion-card-header>
     <ion-card-content>
-        {{ message.content }}
+        <p>{{ message.content }}</p>
     </ion-card-content>
     <ion-row>
         <ion-col>
-            <button primary clear small (click)="openComments()">
-                            <ion-icon name="text"></ion-icon>
-                            <div>{{ subMessages.length }} Comments</div>
-                        </button>
+            <button item primary clear small (click)="openComments()">
+                <div>{{ subMessages.length }} Comments - </div>
+                <div>12 Likes</div>
+            </button>
         </ion-col>
         <ion-col>
+            <button primary clear small>
+                <ion-icon name="thumbs-up">Like</ion-icon>
+            </button>
             <button primary clear small (click)="openMessage()">
-                            <ion-icon name="text"></ion-icon>
-                            <div>Write reply...</div>
-                        </button>
-        </ion-col>
-        <ion-col center text-center>
-            <ion-note>
-                {{ message.dateCreated | date: 'MM/dd/yyyy HH:mm:ss' }}
-            </ion-note>
+            <ion-icon name="text"></ion-icon>
+                <div>Reply</div>
+            </button>
         </ion-col>
     </ion-row>
+
     <ion-row>
         <div *ngIf="showComments">
             <label class="item" *ngFor="let message of subMessages">

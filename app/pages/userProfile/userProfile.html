@@ -8,6 +8,7 @@
 
 <ion-content padding="true" style="background: url(img/FtpTXimGTuGbVjmzFX0i_login-1.png) no-repeat center;background-size:cover;"
   class="no-header">
+
   <ion-list id="page1-list11">
     <ion-item class="item item-text-wrap row row-no-padding" padding="false">
       <div class="row row-wrap row-no-padding" padding="false">
@@ -17,44 +18,53 @@
           <p>Available</p>
         </div>
         <div class="col col-50">
-          <p>Share any relevant message (as Questions, Answers, or comments) with your colleagues on {{userName}}'s profile
-            wall.</p>
+          <p>Pixalere Wound Profile Summary for Patient</p>
         </div>
       </div>
     </ion-item>
-
-
   </ion-list>
+
   <div id="page1-button-bar4" class="button-bar">
     <button id="page1-button14" style="border-radius:0px 0px 0px 0px;" class="button button-stable  button-block">Wall</button>
     <button id="page1-button15" class="button button-dark  button-block">Connect</button>
     <button id="page1-button16" class="button button-dark  button-block">Logs</button>
   </div>
-  <div class="item item-body" id="page1-list-item-container2">
+  <div class="item" id="page1-list-item-container2">
    
     <form [formGroup]="form" class="list" (ngSubmit)="sendMessage(form.value)">
-      <ion-item>
-      <ion-label>To:</ion-label>
-            <ion-select multiple="true" name="recipients" id="recipients"
-                formControlName="recipients">
-              <ion-option *ngFor="let user of allUsers">
-                {{ user.userName }}
-              </ion-option>
-            </ion-select>
-            </ion-item>
-      <label for="messageContent" class="item item-input item-stacked-label" id="page1-input5">
-                    <input type="text" placeholder="Write message" style="display: block;
-            float: left; padding:5px;" name="messageContent" id="messageContent" required
-                formControlName="messageContent">
-                    <button class="button-dark" type="submit" style=" display: block;
-            float: right;">Send</button>
-        </label>
+
+      <div class="row row-wrap row-no-padding">
+        <ion-label>New message</ion-label>
+        <ion-select placeholder="Select users to notify" multiple="true" name="recipients" id="recipients"
+            formControlName="recipients">
+          <ion-option *ngFor="let user of allUsers">
+            {{ user.userName }}
+          </ion-option>
+        </ion-select>
+      </div>
+
+      <label for="messageContent" class="item item-input" id="page1-input5">
+            <ion-avatar>
+                <img src="{{ loggedInUser.userprofileimage }}">            
+            </ion-avatar>
+            &nbsp;<ion-textarea placeholder="Share a wound care update, image, or tip" style="display: block;
+            float: left;" name="messageContent" id="messageContent" required formControlName="messageContent"></ion-textarea>
+      </label>
+        <div>
+          <button class="button-dark" type="submit" style=" display: block; float: right;">Share</button> 
+        </div>
+        <!--<ion-divider ion-inset></ion-divider>-->
+
     </form>
 
   </div>
-  <div>
-    <label class="item" *ngFor="let message of profileMessages | filterProfileMessages">
+
+  <div class="spacer" style="width: 100%; height: 4%;"></div>
+
+  <div class="item row-no-padding col-no-padding" style="background: url(img/FtpTXimGTuGbVjmzFX0i_login-1.png) no-repeat center;background-size:cover; border:0;">
+    <label style="width:100%" *ngFor="let message of profileMessages | filterProfileMessages">
       <MessageComponent-item [init]="message"></MessageComponent-item>
       </label>
   </div>
+
 </ion-content>

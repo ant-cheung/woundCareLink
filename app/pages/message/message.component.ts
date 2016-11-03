@@ -16,12 +16,22 @@ export class MessageComponent {
     public showReplyDialog = false;
     public subMessages: Message[];
     public showComments = false;
+    public messageAge;
+
 
     constructor(private backendService: BackendService) {
     }
 
     ngOnInit() {
         this.subMessages = this.backendService.getSubMessagesForMessage(this.message.id);
+        this.messageAge = this.calcMessageAge;
+        console.log("messageAge: " +  this.messageAge);
+
+    }
+
+    calcMessageAge():number {
+        return 12 - 10;
+        //return new Date().getTime() - this.message.dateCreated.getTime();
     }
 
     // Open or close the write reply... section

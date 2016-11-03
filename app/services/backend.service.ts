@@ -207,31 +207,31 @@ export class BackendService {
   }
 
   users = [
-    new User(1, 'nurse1', '123', UserGroup.nurse),
-    new User(2, 'nurse2', '123', UserGroup.nurse),
-    new User(3, 'nurse3', '123', UserGroup.nurse),
-    new User(4, 'nurse4', '123', UserGroup.nurse),
-    new User(5, 'patient1', '123', UserGroup.patient),
-    new User(6, 'patient2', '123', UserGroup.patient),
-    new User(7, 'patient3', '123', UserGroup.patient),
-    new User(8, 'doctor1', '123', UserGroup.doctor),
-    new User(9, 'doctor2', '123', UserGroup.doctor),
-    new User(10, 'doctor3', '123', UserGroup.doctor),
-    new User(11, 'doctor4', '123', UserGroup.doctor)
+    new User(1, 'nurse1', '123', UserGroup.nurse, 'img/avatar-leia.png'),
+    new User(2, 'nurse2', '123', UserGroup.nurse, 'img/avatar-rey.png'),
+    new User(3, 'nurse3', '123', UserGroup.nurse, 'img/venkman.jpg'),
+    new User(4, 'nurse4', '123', UserGroup.nurse, 'img/avatar-poe.png'),
+    new User(5, 'patient1', '123', UserGroup.patient, 'img/avatar-ben.png'),
+    new User(6, 'patient2', '123', UserGroup.patient, 'img/avatar-finn.png'),
+    new User(7, 'patient3', '123', UserGroup.patient, 'img/avatar-samwise.jpg'),
+    new User(8, 'doctor1', '123', UserGroup.doctor, 'img/avatar-ts-woody.png'),
+    new User(9, 'doctor2', '123', UserGroup.doctor, 'img/avatar-luke.png'),
+    new User(10, 'doctor3', '123', UserGroup.doctor, 'img/avatar-gollum.jpg'),
+    new User(11, 'doctor4', '123', UserGroup.doctor, 'img/avatar-han.png')
   ];
 
   UserProfiles = [
-    new UserProfile(this.users.find(u => u.id === 1), 'img/nurse.png'),
-    new UserProfile(this.users.find(u => u.id === 2), 'img/nurse.png'),
-    new UserProfile(this.users.find(u => u.id === 3), 'img/nurse.png'),
-    new UserProfile(this.users.find(u => u.id === 4), 'img/nurse.png'),
-    new UserProfile(this.users.find(u => u.id === 5), 'img/patient.png'),
-    new UserProfile(this.users.find(u => u.id === 6), 'img/patient.png'),
-    new UserProfile(this.users.find(u => u.id === 7), 'img/patient.png'),
-    new UserProfile(this.users.find(u => u.id === 8), 'img/doctor.png'),
-    new UserProfile(this.users.find(u => u.id === 9), 'img/doctor.png'),
-    new UserProfile(this.users.find(u => u.id === 10), 'img/doctor.png'),
-    new UserProfile(this.users.find(u => u.id === 11), 'img/doctor.png'),
+    new UserProfile(this.users.find(u => u.id === 1), 'img/avatar-leia.png'),
+    new UserProfile(this.users.find(u => u.id === 2), 'img/avatar-rey.png'),
+    new UserProfile(this.users.find(u => u.id === 3), 'img/venkman.jpg'),
+    new UserProfile(this.users.find(u => u.id === 4), 'img/avatar-poe.png'),
+    new UserProfile(this.users.find(u => u.id === 5), 'img/avatar-ben.png'),
+    new UserProfile(this.users.find(u => u.id === 6), 'img/avatar-finn.png'),
+    new UserProfile(this.users.find(u => u.id === 7), 'img/avatar-samwise.jpg'),
+    new UserProfile(this.users.find(u => u.id === 8), 'img/avatar-ts-woody.png'),
+    new UserProfile(this.users.find(u => u.id === 9), 'img/avatar-luke.png'),
+    new UserProfile(this.users.find(u => u.id === 10), 'img/avatar-gollum.jpg'),
+    new UserProfile(this.users.find(u => u.id === 11), 'img/avatar-han.png'),
   ];
 }
 

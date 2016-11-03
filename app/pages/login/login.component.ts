@@ -15,7 +15,7 @@ export class LoginComponent {
     constructor(private _service: AuthenticationService, private navCtrl: NavController) {
 
     }
-    public user: User = new User(-1,'','',null);
+    public user: User = new User(-1,'','',null,'');
     public errorMsg = '';
 
     login() {
