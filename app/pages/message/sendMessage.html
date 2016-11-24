@@ -2,7 +2,7 @@
           <label for="messageReplyContent" class="item item-input" id="page1-input5">
             <!-- <ion-icon class="icon person" name="person">&nbsp;</ion-icon>   loggedIn user image avatar-leia.png-->
             <ion-avatar>
-                <img src="img/avatar-leia.png">
+                <img src="{{ loggedInUser.userprofileimage }}">   
             </ion-avatar>
             &nbsp;<input type="text" placeholder="Share a wound care update, image, or tip" style="display: block;
             float: left;" name="messageReplyContent" id="messageReplyContent" required formControlName="messageReplyContent" autofocus>
