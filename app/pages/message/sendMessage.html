@@ -1,11 +1,11 @@
 <form [formGroup]="form" class="list" (ngSubmit)="sendMessage(form.value)">
-          <label for="messageContent" class="item item-input" id="page1-input5">
+          <label for="messageReplyContent" class="item item-input" id="page1-input5">
             <!-- <ion-icon class="icon person" name="person">&nbsp;</ion-icon>   loggedIn user image avatar-leia.png-->
             <ion-avatar>
                 <img src="img/avatar-leia.png">
             </ion-avatar>
-            &nbsp;<ion-textarea placeholder="Share a wound care update, image, or tip" style="display: block;
-            float: left;" name="messageContent" id="messageContent" required formControlName="messageContent"></ion-textarea>
+            &nbsp;<input type="text" placeholder="Share a wound care update, image, or tip" style="display: block;
+            float: left;" name="messageReplyContent" id="messageReplyContent" required formControlName="messageReplyContent" autofocus>
       </label>
         <div>
           <button class="button-dark" type="submit" style=" display: block; float: right;">Share</button> 

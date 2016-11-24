@@ -22,13 +22,13 @@ export class SendMessageComponent {
 
     createForm() {
         this.form = new ControlGroup({
-            messageContent: new Control('', Validators.required)
+            messageReplyContent: new Control('', Validators.required)
         });
     }
 
     sendMessage(newMessage: any) {
-        let messageContent = this.form.controls['messageContent'];
-        this.events.publish('user:replyToComment', this.message.id, messageContent.value);
+        let messageReplyContent = this.form.controls['messageReplyContent'];
+        this.events.publish('user:replyToComment', this.message.id, messageReplyContent.value);
         // Reset form
       //  this.createForm();
     }

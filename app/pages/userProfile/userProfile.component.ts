@@ -101,8 +101,12 @@ export class UserProfile {
 
         let recipientsNames: string[] = [];
         for (let recipient of recipients.value) {
-            console.log("recipient: " + recipient);
             recipientsNames.push(recipient.trim())
+        }
+
+        if (recipientsNames.length === 0)
+        {
+            recipientsNames.push(this.allUsers[0].userName)
         }
 
         // messageParentId is set to null since these are top level messages on a user profile
@@ -129,6 +133,7 @@ export class UserProfile {
     replyToCommentAction(message) {
         let messageId = String(message[0]);
         let messageContent = String(message[1]);
+
         let messageToCommentOn = this.profileMessages.find(m => m.id === messageId);
 
         let recieverUsers: string[] = [];
