@@ -14,7 +14,7 @@ export class Dropbox {
   constructor(private http: Http) {
     this.http = http;
     // Access token for dropbox Authorization
-    this.accessToken = "SZD7otXSZbAAAAAAAAAAP40cR2JB8HaZps-KzTp4IPjvftPh0wK42jcOi6yV2Quq";
+    this.accessToken = "DROPBOXACCESSTOKEN";
   }
 
   getUserInfo() {
